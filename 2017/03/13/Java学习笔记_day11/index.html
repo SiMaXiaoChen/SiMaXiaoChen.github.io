@@ -1,0 +1,249 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java学习笔记_day11 | 天意博文 | 洗去铅华，重拾初心</title>
+
+  
+  <meta name="author" content="天意">
+  
+
+  
+  <meta name="description" content="这是天意同学的网络豪宅">
+  
+
+  
+  
+  <meta name="keywords" content="Java基础知识">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Java学习笔记_day11"/>
+
+  <meta property="og:site_name" content="天意博文"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="天意博文" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">天意博文</a>
+    </h1>
+    <p class="site-description">洗去铅华，重拾初心</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/categories">分类</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Java学习笔记_day11</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/03/13/Java学习笔记_day11/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-03-13T14:29:36.367Z">
+          2017-03-13
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="eclipse的使用"><a href="#eclipse的使用" class="headerlink" title="eclipse的使用"></a>eclipse的使用</h2><h3 id="视窗和视图结构"><a href="#视窗和视图结构" class="headerlink" title="视窗和视图结构"></a>视窗和视图结构</h3><ol>
+<li>outline 显示类的结构，标示c标示构造方法，标示s标示静态方法，绿色表示public，红色标示private，f标示final，sf标示静态和final，</li>
+<li>hierarchy  显示java继承层次，选中类，点击F4;</li>
+</ol>
+<h3 id="快捷键"><a href="#快捷键" class="headerlink" title="快捷键"></a>快捷键</h3><p><strong>alt  /</strong>  内容辅助键还可以输入补全已知的类名</p>
+<p><strong>alt   shift  s</strong>   弹出source    o和r</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">快捷键</th>
+<th style="text-align:center">内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">alt     /</td>
+<td style="text-align:center">内容辅助键（可以帮助起名）</td>
+</tr>
+<tr>
+<td style="text-align:center">ctrl     shift    F</td>
+<td style="text-align:center">格式化代码</td>
+</tr>
+<tr>
+<td style="text-align:center">ctrl      shift   O</td>
+<td style="text-align:center">导包</td>
+</tr>
+<tr>
+<td style="text-align:center">ctrl     /</td>
+<td style="text-align:center">注释</td>
+</tr>
+<tr>
+<td style="text-align:center">ctrl     shift    /</td>
+<td style="text-align:center">多行注释（要先选中）</td>
+</tr>
+<tr>
+<td style="text-align:center">alt   上 （下）</td>
+<td style="text-align:center">上下移动</td>
+</tr>
+<tr>
+<td style="text-align:center">F3</td>
+<td style="text-align:center">查看源码（或者ctrl鼠标点击）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>ecplise删项目和从硬盘上删除</p>
+</blockquote>
+<h2 id="debug"><a href="#debug" class="headerlink" title="debug"></a>debug</h2><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>快捷键</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Step Over</td>
+<td>F6</td>
+<td>一次执行一步</td>
+</tr>
+</tbody>
+</table>
+<h2 id="如何去断点"><a href="#如何去断点" class="headerlink" title="如何去断点"></a>如何去断点</h2><ul>
+<li>再次双击即可</li>
+</ul>
+<ul>
+<li>找到Debug视图，Variables界面，找到Breakpoints，并点击，然后看到所有的断点，最后点击那个双叉。</li>
+</ul>
+<h2 id="常用api"><a href="#常用api" class="headerlink" title="常用api"></a>常用api</h2><ol>
+<li>public int hashCode（）返回一个哈希码值，这个值和地址有关，但不是实际地址。</li>
+<li>public final Class getClass（）返回此object的运行类，其实返回的是该类的对象。（字节码文件的对象）</li>
+</ol>
+<p>==的用法</p>
+<p>基本类型：比较的就是值是否相同</p>
+<p>引用类型：比较的就是地址值是否相同</p>
+<h2 id="Object类常用API"><a href="#Object类常用API" class="headerlink" title="Object类常用API"></a>Object类常用API</h2><h3 id="equals方法"><a href="#equals方法" class="headerlink" title="equals方法"></a>equals方法</h3><p> equals（只能比引用类型）    引用类型：默认情况下，比较的是地址值。</p>
+<p>String的equals()方法是重写自Object类的，比较的是字符串的内容是否相同</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span> </span>&#123;</div><div class="line">	<span class="keyword">if</span> (<span class="keyword">this</span> == obj)</div><div class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">	<span class="keyword">if</span> (obj == <span class="keyword">null</span>)</div><div class="line">		<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">	<span class="keyword">if</span> (getClass() != obj.getClass())</div><div class="line">		<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">	Student other = (Student) obj;</div><div class="line">	<span class="keyword">if</span> (age != other.age)</div><div class="line">		<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">	<span class="keyword">if</span> (name == <span class="keyword">null</span>) &#123;</div><div class="line">		<span class="keyword">if</span> (other.name != <span class="keyword">null</span>)</div><div class="line">			<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span> (!name.equals(other.name))</div><div class="line">		<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在比较getClass就是比较两者是否是同样的类型，可以使用如下代码替换：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(!(obj <span class="keyword">instanceof</span> 类名))&#123;</div><div class="line">	<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="getClass方法"><a href="#getClass方法" class="headerlink" title="getClass方法"></a>getClass方法</h3><p>getClass返回的是该类的运行时类，也就是该类的对象；</p>
+<p>类Class有一个api是getName以string形式返回该Class的对象名；</p>
+<h3 id="clone方法"><a href="#clone方法" class="headerlink" title="clone方法"></a>clone方法</h3><p>创建并且返回这个对象的一个副本，注意副本和原来的对象地址不是指向同一个，而且该类一定要实现Cloneable接口，这个接口是标记接口，子类而且要重写object的clone方法，告诉我们实现该接口就可以实现该类对象的克隆。</p>
+<p>cloneable接口是一个空接口，只是起到标记作用</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Java/">Java</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/Java基础知识/">Java基础知识</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+	<div id="comment">
+		
+	<!-- 多说评论框 start -->
+	 <div class="ds-thread" data-thread-key="/2017/03/13/Java学习笔记_day11/" data-title="Java学习笔记_day11" data-url="http://yoursite.com/2017/03/13/Java学习笔记_day11/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"wwwpugongstudio"};
+	  (function() {
+	    var ds = document.createElement('script');
+	    ds.type = 'text/javascript';ds.async = true;
+	    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+	    ds.charset = 'UTF-8';
+	    (document.getElementsByTagName('head')[0]
+	     || document.getElementsByTagName('body')[0]).appendChild(ds);
+	  })();
+	  </script>
+	<!-- 多说公共JS代码 end -->
+
+	</div>
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2017 天意
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

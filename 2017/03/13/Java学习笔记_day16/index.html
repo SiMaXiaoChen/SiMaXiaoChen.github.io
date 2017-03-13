@@ -1,0 +1,241 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java学习笔记_day16 | 天意博文 | 洗去铅华，重拾初心</title>
+
+  
+  <meta name="author" content="天意">
+  
+
+  
+  <meta name="description" content="这是天意同学的网络豪宅">
+  
+
+  
+  
+  <meta name="keywords" content="Java基础知识">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Java学习笔记_day16"/>
+
+  <meta property="og:site_name" content="天意博文"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="天意博文" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">天意博文</a>
+    </h1>
+    <p class="site-description">洗去铅华，重拾初心</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/categories">分类</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Java学习笔记_day16</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/03/13/Java学习笔记_day16/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-03-13T14:29:36.835Z">
+          2017-03-13
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="list的子类"><a href="#list的子类" class="headerlink" title="list的子类"></a>list的子类</h2><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
+<li>ArrayList</li>
+</ul>
+<p>底层是数组，查询快，增删慢，线程不安全，效率高</p>
+<ul>
+<li>Vector</li>
+</ul>
+<p>底层是数组，查询快，增删慢，线程不安全，效率高</p>
+<ul>
+<li>LinkedList</li>
+</ul>
+<p>底层是链表，查询慢，增删快，线程不安全，效率高</p>
+<h3 id="ArrayList"><a href="#ArrayList" class="headerlink" title="ArrayList"></a>ArrayList</h3><p>遍历操作（和list一样有两种方式）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayListDemo</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// 创建集合对象</span></div><div class="line">		ArrayList array = <span class="keyword">new</span> ArrayList();</div><div class="line"></div><div class="line">		<span class="comment">// 创建元素对象，并添加元素</span></div><div class="line">		array.add(<span class="string">"hello"</span>);</div><div class="line">		array.add(<span class="string">"world"</span>);</div><div class="line">		array.add(<span class="string">"java"</span>);</div><div class="line"></div><div class="line">		<span class="comment">// 遍历</span></div><div class="line">		Iterator it = array.iterator();</div><div class="line">		<span class="keyword">while</span> (it.hasNext()) &#123;</div><div class="line">			String s = (String) it.next();</div><div class="line">			System.out.println(s);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		System.out.println(<span class="string">"-----------"</span>);</div><div class="line"></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; array.size(); x++) &#123;</div><div class="line">			String s = (String) array.get(x);</div><div class="line">			System.out.println(s);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Vector特有功能"><a href="#Vector特有功能" class="headerlink" title="Vector特有功能"></a>Vector特有功能</h3><h4 id="添加功能"><a href="#添加功能" class="headerlink" title="添加功能"></a>添加功能</h4><p>public void addElement(Object obj)        –    add()</p>
+<h4 id="获取功能"><a href="#获取功能" class="headerlink" title="获取功能"></a>获取功能</h4><p>public Object elementAt(int index)        –  get()</p>
+<p>public Enumeration elements()            –    Iterator iterator()</p>
+<p>boolean hasMoreElements()                hasNext()</p>
+<p>Object nextElement()                    next()</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">VectorDemo</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// 创建集合对象</span></div><div class="line">		Vector v = <span class="keyword">new</span> Vector();</div><div class="line"></div><div class="line">		<span class="comment">// 添加功能</span></div><div class="line">		v.addElement(<span class="string">"hello"</span>);</div><div class="line">		v.addElement(<span class="string">"world"</span>);</div><div class="line">		v.addElement(<span class="string">"java"</span>);</div><div class="line"></div><div class="line">		<span class="comment">// 遍历</span></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; v.size(); x++) &#123;</div><div class="line">			String s = (String) v.elementAt(x);</div><div class="line">			System.out.println(s);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		System.out.println(<span class="string">"------------------"</span>);</div><div class="line"></div><div class="line">		Enumeration en = v.elements(); <span class="comment">// 返回的是实现类的对象</span></div><div class="line">		<span class="keyword">while</span> (en.hasMoreElements()) &#123;</div><div class="line">			String s = (String) en.nextElement();</div><div class="line">			System.out.println(s);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="LinkedList特有功能"><a href="#LinkedList特有功能" class="headerlink" title="LinkedList特有功能"></a>LinkedList特有功能</h3><h4 id="添加功能-1"><a href="#添加功能-1" class="headerlink" title="添加功能"></a>添加功能</h4><p>public void addFirst(Object e)</p>
+<p>public void addLast(Object e)</p>
+<h4 id="获取功能-1"><a href="#获取功能-1" class="headerlink" title="获取功能"></a>获取功能</h4><p>public Object getFirst()</p>
+<p>public Obejct getLast()</p>
+<h4 id="删除功能"><a href="#删除功能" class="headerlink" title="删除功能"></a>删除功能</h4><p>public Object removeFirst()</p>
+<p>public Object removeLast()</p>
+<h3 id="去除ArrayList中的重复元素"><a href="#去除ArrayList中的重复元素" class="headerlink" title="去除ArrayList中的重复元素"></a>去除ArrayList中的重复元素</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayListDemo</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// 创建集合对象</span></div><div class="line">		ArrayList array = <span class="keyword">new</span> ArrayList();</div><div class="line"></div><div class="line">		<span class="comment">// 添加多个字符串元素(包含内容相同的)</span></div><div class="line">		array.add(<span class="string">"hello"</span>);</div><div class="line">		array.add(<span class="string">"world"</span>);</div><div class="line">		array.add(<span class="string">"java"</span>);</div><div class="line">		array.add(<span class="string">"world"</span>);</div><div class="line">		array.add(<span class="string">"java"</span>);</div><div class="line">		array.add(<span class="string">"world"</span>);</div><div class="line">		array.add(<span class="string">"world"</span>);</div><div class="line">		array.add(<span class="string">"world"</span>);</div><div class="line">		array.add(<span class="string">"world"</span>);</div><div class="line">		array.add(<span class="string">"java"</span>);</div><div class="line">		array.add(<span class="string">"world"</span>);</div><div class="line"></div><div class="line">		<span class="comment">// 创建新集合</span></div><div class="line">		ArrayList newArray = <span class="keyword">new</span> ArrayList();</div><div class="line"></div><div class="line">		<span class="comment">// 遍历旧集合,获取得到每一个元素</span></div><div class="line">		Iterator it = array.iterator();</div><div class="line">		<span class="keyword">while</span> (it.hasNext()) &#123;</div><div class="line">			String s = (String) it.next();</div><div class="line"></div><div class="line">			<span class="comment">// 拿这个元素到新集合去找，看有没有</span></div><div class="line">			<span class="keyword">if</span> (!newArray.contains(s)) &#123;</div><div class="line">				newArray.add(s);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="comment">// 遍历新集合</span></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; newArray.size(); x++) &#123;</div><div class="line">			String s = (String) newArray.get(x);</div><div class="line">			System.out.println(s);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>java.util.ArrayList$Itr@1ee0005其中    </p>
+<p>$表示的是内部类</p>
+<p>  需求：ArrayList去除集合中字符串的重复值(字符串的内容相同)<br>  要求：不能创建新的集合，就在以前的集合上做。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayListDemo2</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// 创建集合对象</span></div><div class="line">		ArrayList array = <span class="keyword">new</span> ArrayList();</div><div class="line"></div><div class="line">		<span class="comment">// 添加多个字符串元素(包含内容相同的)</span></div><div class="line">		array.add(<span class="string">"hello"</span>);</div><div class="line">		array.add(<span class="string">"world"</span>);</div><div class="line">		array.add(<span class="string">"java"</span>);</div><div class="line">		array.add(<span class="string">"world"</span>);</div><div class="line">		array.add(<span class="string">"java"</span>);</div><div class="line">		array.add(<span class="string">"world"</span>);</div><div class="line">		array.add(<span class="string">"world"</span>);</div><div class="line">		array.add(<span class="string">"world"</span>);</div><div class="line">		array.add(<span class="string">"world"</span>);</div><div class="line">		array.add(<span class="string">"java"</span>);</div><div class="line">		array.add(<span class="string">"world"</span>);</div><div class="line"></div><div class="line">		<span class="comment">// 由选择排序思想引入，我们就可以通过这种思想做这个题目</span></div><div class="line">		<span class="comment">// 拿0索引的依次和后面的比较，有就把后的干掉</span></div><div class="line">		<span class="comment">// 同理，拿1索引...</span></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; array.size() - <span class="number">1</span>; x++) &#123;</div><div class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> y = x + <span class="number">1</span>; y &lt; array.size(); y++) &#123;</div><div class="line">				<span class="keyword">if</span> (array.get(x).equals(array.get(y))) &#123;</div><div class="line">					array.remove(y);</div><div class="line">					y--;</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="comment">// 遍历集合</span></div><div class="line">		Iterator it = array.iterator();</div><div class="line">		<span class="keyword">while</span> (it.hasNext()) &#123;</div><div class="line">			String s = (String) it.next();</div><div class="line">			System.out.println(s);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>重点是：<strong>y–</strong>，因为假如有连续的相同而且都要删除的目标那么就会错过。</p>
+<h3 id="去除集合中自定义对象的重复值"><a href="#去除集合中自定义对象的重复值" class="headerlink" title="去除集合中自定义对象的重复值"></a>去除集合中自定义对象的重复值</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ArrayListDemo3</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// 创建集合对象</span></div><div class="line">		ArrayList array = <span class="keyword">new</span> ArrayList();</div><div class="line"></div><div class="line">		<span class="comment">// 创建学生对象</span></div><div class="line">		Student s1 = <span class="keyword">new</span> Student(<span class="string">"林青霞"</span>, <span class="number">27</span>);</div><div class="line">		Student s2 = <span class="keyword">new</span> Student(<span class="string">"林志玲"</span>, <span class="number">40</span>);</div><div class="line">		Student s3 = <span class="keyword">new</span> Student(<span class="string">"凤姐"</span>, <span class="number">35</span>);</div><div class="line">		Student s4 = <span class="keyword">new</span> Student(<span class="string">"芙蓉姐姐"</span>, <span class="number">18</span>);</div><div class="line">		Student s5 = <span class="keyword">new</span> Student(<span class="string">"翠花"</span>, <span class="number">16</span>);</div><div class="line">		Student s6 = <span class="keyword">new</span> Student(<span class="string">"林青霞"</span>, <span class="number">27</span>);</div><div class="line">		Student s7 = <span class="keyword">new</span> Student(<span class="string">"林青霞"</span>, <span class="number">18</span>);</div><div class="line"></div><div class="line">		<span class="comment">// 添加元素</span></div><div class="line">		array.add(s1);</div><div class="line">		array.add(s2);</div><div class="line">		array.add(s3);</div><div class="line">		array.add(s4);</div><div class="line">		array.add(s5);</div><div class="line">		array.add(s6);</div><div class="line">		array.add(s7);</div><div class="line"></div><div class="line">		<span class="comment">// 创建新集合</span></div><div class="line">		ArrayList newArray = <span class="keyword">new</span> ArrayList();</div><div class="line"></div><div class="line">		<span class="comment">// 遍历旧集合,获取得到每一个元素</span></div><div class="line">		Iterator it = array.iterator();</div><div class="line">		<span class="keyword">while</span> (it.hasNext()) &#123;</div><div class="line">			Student s = (Student) it.next();</div><div class="line"></div><div class="line">			<span class="comment">// 拿这个元素到新集合去找，看有没有</span></div><div class="line">			<span class="keyword">if</span> (!newArray.contains(s)) &#123;</div><div class="line">				newArray.add(s);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="comment">// 遍历新集合</span></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; newArray.size(); x++) &#123;</div><div class="line">			Student s = (Student) newArray.get(x);</div><div class="line">			System.out.println(s.getName() + <span class="string">"---"</span> + s.getAge());</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>  我们按照和字符串一样的操作，发现出问题了。<br>  为什么呢?<br>          我们必须思考哪里会出问题?<br>          通过简单的分析，我们知道问题出现在了判断上。<br>          而这个判断功能是集合自己提供的，所以我们如果想很清楚的知道它是如何判断的，就应该去看源码。<br>  contains()方法的底层依赖的是equals()方法。<br>  而我们的学生类中没有equals()方法，这个时候，默认使用的是它父亲Object的equals()方法<br>  Object()的equals()默认比较的是地址值，所以，它们进去了。因为new的东西，地址值都不同。<br>  按照我们自己的需求，比较成员变量的值，重写equals()即可。<br>  自动生成即可。</p>
+<h3 id="请用LinkedList模拟栈数据结构的集合，并测试"><a href="#请用LinkedList模拟栈数据结构的集合，并测试" class="headerlink" title="请用LinkedList模拟栈数据结构的集合，并测试"></a>请用LinkedList模拟栈数据结构的集合，并测试</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyStack</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> LinkedList link;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyStack</span><span class="params">()</span> </span>&#123;</div><div class="line">		link = <span class="keyword">new</span> LinkedList();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(Object obj)</span> </span>&#123;</div><div class="line">		link.addFirst(obj);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">get</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="comment">// return link.getFirst();</span></div><div class="line">		<span class="keyword">return</span> link.removeFirst();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> link.isEmpty();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>底层用其他类来封装，而且设置私有，然后在构造方法中初始化的这种封装思想。</p>
+<h2 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h2><p>是一种把类型明确的工作推迟的对象创建或者调用的时候才去确定的特殊类型，也叫参数化类型，把类型当成参数传递，是jdk5引入。</p>
+<h3 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h3><p>&lt;数据类型&gt;   这里的数据类型只能是引用类型。</p>
+<h3 id="好处"><a href="#好处" class="headerlink" title="好处"></a>好处</h3><ul>
+<li>把运行时期的问题提前到来编译时期</li>
+<li>避免的强制转化</li>
+<li>优化程序设计</li>
+</ul>
+<h3 id="泛型方法"><a href="#泛型方法" class="headerlink" title="泛型方法"></a>泛型方法</h3><p>格式:public &lt;泛型类型&gt; 返回类型 方法名(泛型类型 .)</p>
+<p>接口的实现类名一般是在接口名后面加上<strong>Impl</strong>作为实现类名</p>
+<h3 id="泛型接口"><a href="#泛型接口" class="headerlink" title="泛型接口"></a>泛型接口</h3><p>实现类在实现接口的时候</p>
+<p>第一种情况：已经知道该是什么类型的了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Inter&lt;String&gt; i = <span class="keyword">new</span> InterImpl()</div></pre></td></tr></table></figure>
+<p>第二种情况：还不知道是什么类型的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Inter&lt;String&gt; i = <span class="keyword">new</span> InterImpl&lt;String&gt;();</div></pre></td></tr></table></figure>
+<h3 id="高级"><a href="#高级" class="headerlink" title="高级"></a>高级</h3><ul>
+<li>泛型通配符&lt;?&gt;表示任意类型，没有明确类型，就是Object，如果泛型左边声明具体的类型，那么右边也一定要声明一样的类型</li>
+<li>? extends E 向下限定，E及其子类</li>
+<li>? super E E及其父类</li>
+</ul>
+<h2 id="JDK5新特性"><a href="#JDK5新特性" class="headerlink" title="JDK5新特性"></a>JDK5新特性</h2><h3 id="自动拆装箱"><a href="#自动拆装箱" class="headerlink" title="自动拆装箱"></a>自动拆装箱</h3><h3 id="泛型-1"><a href="#泛型-1" class="headerlink" title="泛型"></a>泛型</h3><h3 id="增强for循环"><a href="#增强for循环" class="headerlink" title="增强for循环"></a>增强for循环</h3><p>  ####格式<br>          for(元素数据类型 变量 : 数组或者Collection集合) {<br>             使用变量即可，该变量就是元素</p>
+<h4 id="弊端"><a href="#弊端" class="headerlink" title="弊端"></a>弊端</h4><p>增强for的目标不能为null。对增强for的目标先进行不为null的判断，然后在使用。否则会报NullPointerException空指针异常</p>
+<h4 id="本质"><a href="#本质" class="headerlink" title="本质"></a>本质</h4><p>增强for其实是用来替代迭代器的，证明如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (String s : array) &#123;</div><div class="line">	<span class="keyword">if</span> (<span class="string">"world"</span>.equals(s)) &#123;</div><div class="line">		array.add(<span class="string">"javaee"</span>);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>它会报错ConcurrentModificationException和迭代器同时遍历更改报错一样</p>
+<h3 id="静态导入"><a href="#静态导入" class="headerlink" title="静态导入"></a>静态导入</h3><p>格式：import static 包名….类名.方法名;</p>
+<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><ol>
+<li>方法必须是静态的</li>
+<li>如果有多个同名的静态方法，不知道使用谁</li>
+</ol>
+<h3 id="可变参数"><a href="#可变参数" class="headerlink" title="可变参数"></a>可变参数</h3><p>定义方法的时候不知道该定义多少个参数</p>
+<h4 id="格式-1"><a href="#格式-1" class="headerlink" title="格式"></a>格式</h4><p>修饰符 返回值类型 方法名(数据类型…  变量名){}</p>
+<h4 id="实质"><a href="#实质" class="headerlink" title="实质"></a>实质</h4><p>这里的变量其实是一个数组</p>
+<h4 id="注意-1"><a href="#注意-1" class="headerlink" title="注意"></a>注意</h4><p>如果一个方法有可变参数，并且有多个参数，那么，可变参数肯定是最后一个</p>
+<h3 id="练习题"><a href="#练习题" class="headerlink" title="练习题"></a>练习题</h3><p>ArrayList存储自定义对象并遍历。要求加入泛型，并用增强for遍历。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line"> A:迭代器</div><div class="line"> B:普通<span class="keyword">for</span></div><div class="line"> C:增强<span class="function"><span class="keyword">for</span></span></div><div class="line"> 	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> &#123;</div><div class="line">	<span class="comment">// 创建集合对象</span></div><div class="line">	ArrayList&lt;Student&gt; array = <span class="keyword">new</span> ArrayList&lt;Student&gt;();</div><div class="line"></div><div class="line">	<span class="comment">// 创建学生对象</span></div><div class="line">	Student s1 = <span class="keyword">new</span> Student(<span class="string">"林青霞"</span>, <span class="number">27</span>);</div><div class="line">	Student s2 = <span class="keyword">new</span> Student(<span class="string">"貂蝉"</span>, <span class="number">22</span>);</div><div class="line">	Student s3 = <span class="keyword">new</span> Student(<span class="string">"杨玉环"</span>, <span class="number">24</span>);</div><div class="line">	Student s4 = <span class="keyword">new</span> Student(<span class="string">"西施"</span>, <span class="number">21</span>);</div><div class="line">	Student s5 = <span class="keyword">new</span> Student(<span class="string">"王昭君"</span>, <span class="number">23</span>);</div><div class="line"></div><div class="line">	<span class="comment">// 把学生对象添加到集合中</span></div><div class="line">	array.add(s1);</div><div class="line">	array.add(s2);</div><div class="line">	array.add(s3);</div><div class="line">	array.add(s4);</div><div class="line">	array.add(s5);</div><div class="line"></div><div class="line">	<span class="comment">// 迭代器</span></div><div class="line">	Iterator&lt;Student&gt; it = array.iterator();</div><div class="line">	<span class="keyword">while</span> (it.hasNext()) &#123;</div><div class="line">		Student s = it.next();</div><div class="line">		System.out.println(s.getName() + <span class="string">"---"</span> + s.getAge());</div><div class="line">	&#125;</div><div class="line">	System.out.println(<span class="string">"---------------"</span>);</div><div class="line"></div><div class="line">	<span class="comment">// 普通for</span></div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; array.size(); x++) &#123;</div><div class="line">		Student s = array.get(x);</div><div class="line">		System.out.println(s.getName() + <span class="string">"---"</span> + s.getAge());</div><div class="line">	&#125;</div><div class="line">	System.out.println(<span class="string">"---------------"</span>);</div><div class="line"></div><div class="line">	<span class="comment">// 增强for</span></div><div class="line">	<span class="keyword">for</span> (Student s : array) &#123;</div><div class="line">		System.out.println(s.getName() + <span class="string">"---"</span> + s.getAge());</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="ArrayList的asList方法"><a href="#ArrayList的asList方法" class="headerlink" title="ArrayList的asList方法"></a>ArrayList的asList方法</h2><p>可以把数组转换成集合</p>
+<p>public static <t> List<t> asList(T… a):把数组转成集合</t></t></p>
+<p>但是其本质还是一个数组，而且数组的长度不可变所以一切与数组长度有关的操作都会报错<strong>UnsupportedOperationException</strong>（即曾和删不可以）不支持的操作，但是更改操作可以</p>
+<blockquote>
+<p>ArrayList可以嵌套<strong>ArrayList<arraylist<student>&gt;</arraylist<student></strong></p>
+</blockquote>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Java/">Java</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/Java基础知识/">Java基础知识</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+	<div id="comment">
+		
+	<!-- 多说评论框 start -->
+	 <div class="ds-thread" data-thread-key="/2017/03/13/Java学习笔记_day16/" data-title="Java学习笔记_day16" data-url="http://yoursite.com/2017/03/13/Java学习笔记_day16/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"wwwpugongstudio"};
+	  (function() {
+	    var ds = document.createElement('script');
+	    ds.type = 'text/javascript';ds.async = true;
+	    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+	    ds.charset = 'UTF-8';
+	    (document.getElementsByTagName('head')[0]
+	     || document.getElementsByTagName('body')[0]).appendChild(ds);
+	  })();
+	  </script>
+	<!-- 多说公共JS代码 end -->
+
+	</div>
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2017 天意
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

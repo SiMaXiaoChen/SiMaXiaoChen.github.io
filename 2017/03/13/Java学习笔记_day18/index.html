@@ -1,0 +1,192 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java学习笔记_day18 | 天意博文 | 洗去铅华，重拾初心</title>
+
+  
+  <meta name="author" content="天意">
+  
+
+  
+  <meta name="description" content="这是天意同学的网络豪宅">
+  
+
+  
+  
+  <meta name="keywords" content="Java基础知识">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Java学习笔记_day18"/>
+
+  <meta property="og:site_name" content="天意博文"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="天意博文" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">天意博文</a>
+    </h1>
+    <p class="site-description">洗去铅华，重拾初心</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/categories">分类</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Java学习笔记_day18</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/03/13/Java学习笔记_day18/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-03-13T14:29:37.023Z">
+          2017-03-13
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="Map集合"><a href="#Map集合" class="headerlink" title="Map集合"></a>Map集合</h2><p>将键映射到值的对象。一个映射不能包含重复的键；每个键最多只能映射到一个值。 </p>
+<h3 id="和Collection的区别"><a href="#和Collection的区别" class="headerlink" title="和Collection的区别"></a>和Collection的区别</h3><p>Map存储元素是键值对，Map集合的键是唯一的，值是可重复的</p>
+<p>Collection存储的是单个元素，Collection的子类Set是唯一的，List是可重复的。</p>
+<h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>  1:添加功能<br>          V put(K key,V value):添加元素。<br>              如果键是第一次存储，就直接存储元素，返回null<br>              如果键不是第一次存在，就用值把以前的值替换掉，返回以前的值<br>  2:删除功能<br>          void clear():移除所有的键值对元素<br>          V remove(Object key)：根据键删除键值对元素，并把值返回<br>  3:判断功能<br>          boolean containsKey(Object key)：判断集合是否包含指定的键<br>          boolean containsValue(Object value):判断集合是否包含指定的值<br>          boolean isEmpty()：判断集合是否为空<br>  4:获取功能<br>          Set<map.entry<k,v>&gt; entrySet():???<br>          V get(Object key):根据键获取值<br>          Set<k> keySet():获取集合中所有键的集合<br>          Collection<v> values():获取集合中所有值的集合<br>  5：长度功能<br>          int size()：返回集合中的键值对的对数</v></k></map.entry<k,v></p>
+<h3 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h3><ul>
+<li>思路一：遍历key</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 获取所有的键</span></div><div class="line">Set&lt;String&gt; set = map.keySet();</div><div class="line"><span class="comment">// 遍历键的集合，获取得到每一个键</span></div><div class="line"><span class="keyword">for</span> (String key : set) &#123;</div><div class="line">	<span class="comment">// 根据键去找值</span></div><div class="line">	String value = map.get(key);</div><div class="line">	System.out.println(key + <span class="string">"---"</span> + value);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>思路二：获得所有的键值对</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 获取所有键值对对象的集合</span></div><div class="line">Set&lt;Map.Entry&lt;String, String&gt;&gt; set = map.entrySet();</div><div class="line"><span class="comment">// 遍历键值对对象的集合，得到每一个键值对对象</span></div><div class="line"><span class="keyword">for</span> (Map.Entry&lt;String, String&gt; me : set) &#123;</div><div class="line">	<span class="comment">// 根据键值对对象获取键和值</span></div><div class="line">	String key = me.getKey();</div><div class="line">	String value = me.getValue();</div><div class="line">	System.out.println(key + <span class="string">"---"</span> + value);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a>HashMap</h2><p>基于哈希表的 Map 接口的实现，哈希表结构保证建的唯一性。哈希结构底层依赖是hashCode和Equals方法</p>
+<h3 id="键是引用类型的案例"><a href="#键是引用类型的案例" class="headerlink" title="键是引用类型的案例"></a>键是引用类型的案例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"> * HashMap&lt;Student,String&gt;</div><div class="line"> * 键：Student</div><div class="line"> * 		要求：如果两个对象的成员变量值都相同，则为同一个对象。</div><div class="line"> * 值：String</div><div class="line"> * 实现：只要在Student类中重写两个方法即可，保证唯一性。hashCode()和equals方法</div><div class="line"> */</div></pre></td></tr></table></figure>
+<h3 id="LinkedHashMap"><a href="#LinkedHashMap" class="headerlink" title="LinkedHashMap"></a>LinkedHashMap</h3><p>是Map接口的哈希表和链接列表实现，具有可预知的迭代顺序。由哈希表保证键的唯一性，链表保证键盘的有序(存储和取出的顺序一致)。</p>
+<h3 id="TreeMap"><a href="#TreeMap" class="headerlink" title="TreeMap"></a>TreeMap</h3><p>是基于红黑树的Map接口的实现。可以保证键的排序和唯一性</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//排序示例如下，他也有两种方式</span></div><div class="line">		TreeMap&lt;Student, String&gt; tm = <span class="keyword">new</span> TreeMap&lt;Student, String&gt;(</div><div class="line">				<span class="keyword">new</span> Comparator&lt;Student&gt;() &#123;</div><div class="line">					<span class="meta">@Override</span></div><div class="line">					<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Student s1, Student s2)</span> </span>&#123;</div><div class="line">						<span class="comment">// 主要条件</span></div><div class="line">						<span class="keyword">int</span> num = s1.getAge() - s2.getAge();</div><div class="line">						<span class="comment">// 次要条件</span></div><div class="line">						<span class="keyword">int</span> num2 = num == <span class="number">0</span> ? s1.getName().compareTo(</div><div class="line">								s2.getName()) : num;</div><div class="line">						<span class="keyword">return</span> num2;</div><div class="line">					&#125;</div><div class="line">				&#125;);</div></pre></td></tr></table></figure>
+<h3 id="练习题"><a href="#练习题" class="headerlink" title="练习题"></a>练习题</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"> * 需求 ："aababcabcdabcde",获取字符串中每一个字母出现的次数要求结果:a(5)b(4)c(3)d(2)e(1)</div><div class="line"> * </div><div class="line"> * 分析：</div><div class="line"> * 		A:定义一个字符串(可以改进为键盘录入)</div><div class="line"> * 		B:定义一个TreeMap集合</div><div class="line"> * 			键:Character</div><div class="line"> * 			值：Integer</div><div class="line"> * 		C:把字符串转换为字符数组</div><div class="line"> * 		D:遍历字符数组，得到每一个字符</div><div class="line"> * 		E:拿刚才得到的字符作为键到集合中去找值，看返回值</div><div class="line"> * 			是null:说明该键不存在，就把该字符作为键，1作为值存储</div><div class="line"> * 			不是null:说明该键存在，就把值加1，然后重写存储该键和值</div><div class="line"> * 		F:定义字符串缓冲区变量</div><div class="line"> * 		G:遍历集合，得到键和值，进行按照要求拼接</div><div class="line"> * 		H:把字符串缓冲区转换为字符串输出</div><div class="line"> * </div><div class="line"> * 录入：linqingxia</div><div class="line"> * 结果：result:a(1)g(1)i(3)l(1)n(2)q(1)x(1)</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TreeMapDemo</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// 定义一个字符串(可以改进为键盘录入)</span></div><div class="line">		Scanner sc = <span class="keyword">new</span> Scanner(System.in);</div><div class="line">		System.out.println(<span class="string">"请输入一个字符串："</span>);</div><div class="line">		String line = sc.nextLine();</div><div class="line"></div><div class="line">		<span class="comment">// 定义一个TreeMap集合</span></div><div class="line">		TreeMap&lt;Character, Integer&gt; tm = <span class="keyword">new</span> TreeMap&lt;Character, Integer&gt;();</div><div class="line">		</div><div class="line">		<span class="comment">//把字符串转换为字符数组</span></div><div class="line">		<span class="keyword">char</span>[] chs = line.toCharArray();</div><div class="line">		</div><div class="line">		<span class="comment">//遍历字符数组，得到每一个字符</span></div><div class="line">		<span class="keyword">for</span>(<span class="keyword">char</span> ch : chs)&#123;</div><div class="line">			<span class="comment">//拿刚才得到的字符作为键到集合中去找值，看返回值</span></div><div class="line">			Integer i =  tm.get(ch);</div><div class="line">			</div><div class="line">			<span class="comment">//是null:说明该键不存在，就把该字符作为键，1作为值存储</span></div><div class="line">			<span class="keyword">if</span>(i == <span class="keyword">null</span>)&#123;</div><div class="line">				tm.put(ch, <span class="number">1</span>);</div><div class="line">			&#125;<span class="keyword">else</span> &#123;</div><div class="line">				<span class="comment">//不是null:说明该键存在，就把值加1，然后重写存储该键和值</span></div><div class="line">				i++;</div><div class="line">				tm.put(ch,i);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">//定义字符串缓冲区变量</span></div><div class="line">		StringBuilder sb=  <span class="keyword">new</span> StringBuilder();</div><div class="line">		</div><div class="line">		<span class="comment">//遍历集合，得到键和值，进行按照要求拼接</span></div><div class="line">		Set&lt;Character&gt; set = tm.keySet();</div><div class="line">		<span class="keyword">for</span>(Character key : set)&#123;</div><div class="line">			Integer value = tm.get(key);</div><div class="line">			sb.append(key).append(<span class="string">"("</span>).append(value).append(<span class="string">")"</span>);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">//把字符串缓冲区转换为字符串输出</span></div><div class="line">		String result = sb.toString();</div><div class="line">		System.out.println(<span class="string">"result:"</span>+result);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="HashMap和Hashtable"><a href="#HashMap和Hashtable" class="headerlink" title="HashMap和Hashtable"></a>HashMap和Hashtable</h3><p>  Hashtable:线程安全，效率低。不允许null键和null值<br>  HashMap:线程不安全，效率高。允许null键和null值</p>
+<h3 id="习题-List-Set-Map等接口是否都继承子Map接口"><a href="#习题-List-Set-Map等接口是否都继承子Map接口" class="headerlink" title="习题 List,Set,Map等接口是否都继承子Map接口?"></a>习题 List,Set,Map等接口是否都继承子Map接口?</h3><p>  List，Set不是继承自Map接口，它们继承自Collection接口<br>  Map接口本身就是一个顶层接口</p>
+<h3 id="Collections"><a href="#Collections" class="headerlink" title="Collections"></a>Collections</h3><p>是针对集合进行操作的工具类，都是静态方法。</p>
+<h4 id="Collection和Collections的区别"><a href="#Collection和Collections的区别" class="headerlink" title="Collection和Collections的区别?"></a>Collection和Collections的区别?</h4><p>  Collection:是单列集合的顶层接口，有子接口List和Set。<br>  Collections:是针对集合操作的工具类，有对集合进行排序和二分查找的方法</p>
+<h4 id="常见方法"><a href="#常见方法" class="headerlink" title="常见方法"></a>常见方法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="function"><span class="keyword">void</span> <span class="title">sort</span><span class="params">(List&lt;T&gt; list)</span>：排序 默认情况下是自然顺序。</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; <span class="keyword">int</span> <span class="title">binarySearch</span><span class="params">(List&lt;?&gt; list,T key)</span>:二分查找</div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt; T <span class="title">max</span><span class="params">(Collection&lt;?&gt; coll)</span>:最大值</div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">reverse</span><span class="params">(List&lt;?&gt; list)</span>:反转</div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">shuffle</span><span class="params">(List&lt;?&gt; list)</span>:随</div></pre></td></tr></table></figure>
+<p>其中binarySearch在找不到的时候是最大索引加一然后在取负数。</p>
+<blockquote>
+<p>如果同时又比较器和自然排序，那么久采用自然排序</p>
+</blockquote>
+<h3 id="练习斗地主洗牌"><a href="#练习斗地主洗牌" class="headerlink" title="练习斗地主洗牌"></a>练习斗地主洗牌</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"> * 思路：</div><div class="line"> * 		A:创建一个HashMap集合</div><div class="line"> * 		B:创建一个ArrayList集合</div><div class="line"> * 		C:创建花色数组和点数数组</div><div class="line"> * 		D:从0开始往HashMap里面存储编号，并存储对应的牌</div><div class="line"> *        同时往ArrayList里面存储编号即可。</div><div class="line"> *      E:洗牌(洗的是编号)</div><div class="line"> *      F:发牌(发的也是编号，为了保证编号是排序的，就创建TreeSet集合接收)</div><div class="line"> *      G:看牌(遍历TreeSet集合，获取编号，到HashMap集合找对应的牌)</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PokerDemo</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">		<span class="comment">// 创建一个HashMap集合</span></div><div class="line">		HashMap&lt;Integer, String&gt; hm = <span class="keyword">new</span> HashMap&lt;Integer, String&gt;();</div><div class="line"></div><div class="line">		<span class="comment">// 创建一个ArrayList集合</span></div><div class="line">		ArrayList&lt;Integer&gt; array = <span class="keyword">new</span> ArrayList&lt;Integer&gt;();</div><div class="line"></div><div class="line">		<span class="comment">// 创建花色数组和点数数组</span></div><div class="line">		<span class="comment">// 定义一个花色数组</span></div><div class="line">		String[] colors = &#123; <span class="string">"♠"</span>, <span class="string">"♥"</span>, <span class="string">"♣"</span>, <span class="string">"♦"</span> &#125;;</div><div class="line">		<span class="comment">// 定义一个点数数组</span></div><div class="line">		String[] numbers = &#123; <span class="string">"3"</span>, <span class="string">"4"</span>, <span class="string">"5"</span>, <span class="string">"6"</span>, <span class="string">"7"</span>, <span class="string">"8"</span>, <span class="string">"9"</span>, <span class="string">"10"</span>, <span class="string">"J"</span>, <span class="string">"Q"</span>,</div><div class="line">				<span class="string">"K"</span>, <span class="string">"A"</span>, <span class="string">"2"</span>, &#125;;</div><div class="line"></div><div class="line">		<span class="comment">// 从0开始往HashMap里面存储编号，并存储对应的牌,同时往ArrayList里面存储编号即可。</span></div><div class="line">		<span class="keyword">int</span> index = <span class="number">0</span>;</div><div class="line"></div><div class="line">		<span class="keyword">for</span> (String number : numbers) &#123;</div><div class="line">			<span class="keyword">for</span> (String color : colors) &#123;</div><div class="line">				String poker = color.concat(number);</div><div class="line">				hm.put(index, poker);</div><div class="line">				array.add(index);</div><div class="line">				index++;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		hm.put(index, <span class="string">"小王"</span>);</div><div class="line">		array.add(index);</div><div class="line">		index++;</div><div class="line">		hm.put(index, <span class="string">"大王"</span>);</div><div class="line">		array.add(index);</div><div class="line"></div><div class="line">		<span class="comment">// 洗牌(洗的是编号)</span></div><div class="line">		Collections.shuffle(array);</div><div class="line"></div><div class="line">		<span class="comment">// 发牌(发的也是编号，为了保证编号是排序的，就创建TreeSet集合接收)</span></div><div class="line">		TreeSet&lt;Integer&gt; fengQingYang = <span class="keyword">new</span> TreeSet&lt;Integer&gt;();</div><div class="line">		TreeSet&lt;Integer&gt; linQingXia = <span class="keyword">new</span> TreeSet&lt;Integer&gt;();</div><div class="line">		TreeSet&lt;Integer&gt; liuYi = <span class="keyword">new</span> TreeSet&lt;Integer&gt;();</div><div class="line">		TreeSet&lt;Integer&gt; diPai = <span class="keyword">new</span> TreeSet&lt;Integer&gt;();</div><div class="line"></div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> x = <span class="number">0</span>; x &lt; array.size(); x++) &#123;</div><div class="line">			<span class="keyword">if</span> (x &gt;= array.size() - <span class="number">3</span>) &#123;</div><div class="line">				diPai.add(array.get(x));</div><div class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span> (x % <span class="number">3</span> == <span class="number">0</span>) &#123;</div><div class="line">				fengQingYang.add(array.get(x));</div><div class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span> (x % <span class="number">3</span> == <span class="number">1</span>) &#123;</div><div class="line">				linQingXia.add(array.get(x));</div><div class="line">			&#125; <span class="keyword">else</span> <span class="keyword">if</span> (x % <span class="number">3</span> == <span class="number">2</span>) &#123;</div><div class="line">				liuYi.add(array.get(x));</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="comment">// 看牌(遍历TreeSet集合，获取编号，到HashMap集合找对应的牌)</span></div><div class="line">		lookPoker(<span class="string">"风清扬"</span>, fengQingYang, hm);</div><div class="line">		lookPoker(<span class="string">"林青霞"</span>, linQingXia, hm);</div><div class="line">		lookPoker(<span class="string">"刘意"</span>, liuYi, hm);</div><div class="line">		lookPoker(<span class="string">"底牌"</span>, diPai, hm);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">// 写看牌的功能</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">lookPoker</span><span class="params">(String name, TreeSet&lt;Integer&gt; ts,</span></span></div><div class="line">			HashMap&lt;Integer, String&gt; hm) &#123;</div><div class="line">		System.out.print(name + <span class="string">"的牌是："</span>);</div><div class="line">		<span class="keyword">for</span> (Integer key : ts) &#123;</div><div class="line">			String value = hm.get(key);</div><div class="line">			System.out.print(value + <span class="string">" "</span>);</div><div class="line">		&#125;</div><div class="line">		System.out.println();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Java/">Java</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/Java基础知识/">Java基础知识</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+	<div id="comment">
+		
+	<!-- 多说评论框 start -->
+	 <div class="ds-thread" data-thread-key="/2017/03/13/Java学习笔记_day18/" data-title="Java学习笔记_day18" data-url="http://yoursite.com/2017/03/13/Java学习笔记_day18/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"wwwpugongstudio"};
+	  (function() {
+	    var ds = document.createElement('script');
+	    ds.type = 'text/javascript';ds.async = true;
+	    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+	    ds.charset = 'UTF-8';
+	    (document.getElementsByTagName('head')[0]
+	     || document.getElementsByTagName('body')[0]).appendChild(ds);
+	  })();
+	  </script>
+	<!-- 多说公共JS代码 end -->
+
+	</div>
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2017 天意
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

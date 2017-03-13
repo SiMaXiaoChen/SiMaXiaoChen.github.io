@@ -1,0 +1,373 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Java学习笔记_day2 | 天意博文 | 洗去铅华，重拾初心</title>
+
+  
+  <meta name="author" content="天意">
+  
+
+  
+  <meta name="description" content="这是天意同学的网络豪宅">
+  
+
+  
+  
+  <meta name="keywords" content="Java基础知识">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Java学习笔记_day2"/>
+
+  <meta property="og:site_name" content="天意博文"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="天意博文" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">天意博文</a>
+    </h1>
+    <p class="site-description">洗去铅华，重拾初心</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/categories">分类</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Java学习笔记_day2</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/03/13/Java学习笔记_day2/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-03-13T14:29:37.195Z">
+          2017-03-13
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h2><p>组成关键字的字母全部小写</p>
+<p>goto和const作为保留字存在,目前并不使用</p>
+<h3 id="常见关键字"><a href="#常见关键字" class="headerlink" title="常见关键字"></a>常见关键字</h3><p><img src="E:\picture\snipaste_20170313_204018.png" alt="snipaste_20170313_204018"></p>
+<p><img src="E:\picture\snipaste_20170313_204039.png" alt="snipaste_20170313_204039"></p>
+<h2 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h2><p>就是给类,接口,方法,变量variable等起名字时使用的字符序列</p>
+<h3 id="组成规则"><a href="#组成规则" class="headerlink" title="组成规则"></a>组成规则</h3><p>l  英文大小写字母</p>
+<p>l  数字字符</p>
+<p>l  $和_</p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>l  不能以数字开头</p>
+<p>l  不能是Java中的关键字</p>
+<p>l  区分大小写</p>
+<h3 id="命名规则"><a href="#命名规则" class="headerlink" title="命名规则"></a>命名规则</h3><ol>
+<li>包(其实就是文件夹,用于解决相同类名问题)</li>
+</ol>
+<p>全部是小写</p>
+<p>单级包：haotianyi</p>
+<p>多级包：cn.hty</p>
+<ol>
+<li>类或者接口</li>
+</ol>
+<p>一个单词：首字母大写</p>
+<p>多个单词：每个大单词首字母大写     ShowAllAge</p>
+<ol>
+<li>方法和变量</li>
+</ol>
+<p>一个单词:单词的首字母小写  age</p>
+<p>多个单词：从第二个单词开始，单词的首字母大写   showAllAge</p>
+<ol>
+<li>常量</li>
+</ol>
+<p>一个单词：每个字母全部大写</p>
+<p>多个单词：每个字母全部大写，单词之间用下划线隔开</p>
+<h2 id="Java中注释"><a href="#Java中注释" class="headerlink" title="Java中注释"></a>Java中注释</h2><p>l  单行注释</p>
+<p>格式： //注释文字</p>
+<p>l  多行注释</p>
+<p>格式： /<em>  注释文字  </em>/</p>
+<p>l  文档注释</p>
+<p>格式：/<em>* 注释文字 </em>/</p>
+<p>多行注释不可以嵌套使用，单行才可以嵌套使用</p>
+<p>文档注释主要是被javadoc工具解析成一个说明书</p>
+<p>先写注释在写代码</p>
+<h3 id="注释的作用"><a href="#注释的作用" class="headerlink" title="注释的作用"></a>注释的作用</h3><p>解释说明程序，提高程序的阅读性</p>
+<p>可以帮助我们排错</p>
+<h2 id="常量constant"><a href="#常量constant" class="headerlink" title="常量constant"></a>常量constant</h2><p>在程序执行的过程中其值不可以发生改变</p>
+<h3 id="Java中常量分类"><a href="#Java中常量分类" class="headerlink" title="Java中常量分类"></a>Java中常量分类</h3><ol>
+<li>字面值常量</li>
+</ol>
+<p>字符串常量  用双引号括起来的内容</p>
+<p>整数常量       所有整数</p>
+<p>12,23</p>
+<p>小数常量       所有小数</p>
+<p>12.34,56.78</p>
+<p>字符常量       用单引号括起来的内容</p>
+<p>‘a’,’A’,’0’</p>
+<p>布尔常量       较为特有，只有true和false</p>
+<p>空常量      null(数组部分讲解)</p>
+<ol>
+<li>自定义常量</li>
+</ol>
+<h3 id="不同进制的数据组成"><a href="#不同进制的数据组成" class="headerlink" title="不同进制的数据组成"></a>不同进制的数据组成</h3><p>二进制  </p>
+<p>由0,1组成。以0b开头</p>
+<p>八进制  </p>
+<p>由0,1,…7组成。以0开头</p>
+<p>十进制  </p>
+<p>由0,1,…9组成。整数默认是十进制的</p>
+<p>十六进制    </p>
+<p>由0,1,…9,a,b,c,d,e,f(大小写均可)。以0x开头 </p>
+<h4 id="不同进制之间的转换"><a href="#不同进制之间的转换" class="headerlink" title="不同进制之间的转换"></a>不同进制之间的转换</h4><p>l  十进制到其他进制</p>
+<p>用原始数据除以要转换的进制数，直到被除数是0为止，然后从下到上得到余数</p>
+<p>l  其他进制到十进制</p>
+<p>用每位的数字在乘以进制的不同次幂</p>
+<h4 id="由符号数据表示法"><a href="#由符号数据表示法" class="headerlink" title="由符号数据表示法"></a>由符号数据表示法</h4><p>在计算机内，有符号数有3种表示法：原码、反码和补码。所有数据的运算都是采用补码进行的。</p>
+<p>原码</p>
+<p>就是二进制定点表示法，即最高位为符号位，“0”表示正，“1”表示负，其余位表示数值的大小。</p>
+<p>反码</p>
+<p>正数的反码与其原码相同；负数的反码是对其原码逐位取反，但符号位除外。</p>
+<p>补码</p>
+<p>正数的补码与其原码相同；负数的补码是在其反码的末位加1。</p>
+<h2 id="变量variable"><a href="#变量variable" class="headerlink" title="变量variable"></a>变量variable</h2><p>在程序执行的过程中，在某个范围内其值可以发生改变的量</p>
+<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p><img src="E:\picture\snipaste_20170313_204211.png" alt="snipaste_20170313_204211"></p>
+<p>Java语言是强类型语言，对于每一种数据都定义了明确的具体数据类型，在内存总分配了不同大小的内存空间</p>
+<h3 id="数据的范围"><a href="#数据的范围" class="headerlink" title="数据的范围"></a>数据的范围</h3><p><img src="E:\picture\snipaste_20170313_204232.png" alt="snipaste_20170313_204232"></p>
+<h3 id="数据注意"><a href="#数据注意" class="headerlink" title="数据注意"></a>数据注意</h3><p>一个字节8个比特</p>
+<p>整数默认：int   浮点数默认：double</p>
+<p>如要声明一个常量为 float 型，则需在数字后面加 f 或 F</p>
+<p>声明long型常量可以后加‘ l ’或‘ L ’</p>
+<h3 id="变量注意事项"><a href="#变量注意事项" class="headerlink" title="变量注意事项"></a>变量注意事项</h3><p>作用域  </p>
+<p>变量定义在哪一级大括号中，哪个大括号的范围就是这个变量的作用域。相同的作用域中不能定义两个同名变量。</p>
+<p>初始化值</p>
+<p>没有初始化值不能直接使用</p>
+<p>在一行上建议只定义一个变量</p>
+<p>可以定义多个，但是不建议</p>
+<h2 id="数据类型的转换"><a href="#数据类型的转换" class="headerlink" title="数据类型的转换"></a>数据类型的转换</h2><p>l  默认转换</p>
+<p>byte,short,char—int—long</p>
+<p>byte,short,char相互之间转换，他们参与运算首先转换为int类型</p>
+<p>l  强制转换</p>
+<p>目标类型 变量名=(目标类型)(被转换的数据);</p>
+<p>byte，short在定义的时候，他们接收的其实是一个int类型的值。</p>
+<p>这个是自己做了一个数据检测的，如果不再它们的范围内，就报错。</p>
+<h2 id="思考题"><a href="#思考题" class="headerlink" title="思考题"></a>思考题</h2><ol>
+<li><p>byte b =130;有没有问题?如果我想让赋值正确，可以怎么做?结果是多少呢?</p>
+</li>
+<li><p>字符参与运算</p>
+<pre><code>是查找ASCII里面的值
+
+&apos;a&apos;    97
+
+&apos;A&apos;    65
+
+&apos;0&apos;    48
+</code></pre></li>
+<li><p>下面两种方式有区别吗?</p>
+<pre><code>float f1 = 12.345f;
+
+float f2 = (float)12.345;
+</code></pre></li>
+</ol>
+<p>下面的程序有问题吗，如果有，在哪里呢?</p>
+<pre><code>byte b1 = 3;
+
+byte b2 = 4;
+
+byte b3 = b1 + b2;
+
+byte b4 = 3 + 4;
+</code></pre><p>参考：</p>
+<p>1用原码反码补码来计算</p>
+<pre><code>我们要想知道结果是什么，就应该知道是如何进行计算的。
+
+而我们又知道计算机中数据的运算都是补码进行的。
+
+而要得到补码，首先要计算出数据的二进制。
+
+
+
+A:获取130这个数据的二进制。
+
+    00000000 0000000000000000 10000010
+
+    这是130的原码，也是反码，还是补码。
+
+B:做截取操作，截成byte类型的了。
+
+    10000010 
+
+    这个结果是补码。
+
+C:已知补码求原码。
+
+           符号位     数值位
+
+    补码：  1          0000010
+
+
+
+    反码：  1          0000001
+
+
+
+    原码：  1          1111110
+</code></pre><p>2是f1就是float类型的数据但是f2是int去掉前面三个字节截取而得</p>
+<p>3两个byte类型的数据相加直接转换成int类型，由低级向高级装换可以隐士转换，高级向低级转换一定要显示，是b3错误，换成short一样错误。</p>
+<p>常量，先把结果计算出来，然后看是否在byte的范围内，如果在就不报错。</p>
+<h2 id="复习题"><a href="#复习题" class="headerlink" title="复习题"></a>复习题</h2><p>1:在定义Long或者Float类型变量的时候，要加L或者f。</p>
+<p> 整数默认是int类型，浮点数默认是double。</p>
+<p> byte，short在定义的时候，他们接收的其实是一个int类型的值。</p>
+<p> 这个是自己做了一个数据检测的，如果不再它们的范围内，就报错。</p>
+<p>2:byte值的问题</p>
+<pre><code>byteb1 = 127;
+
+byteb2 = (byte)128; //-128
+
+byteb3 = (byte)129; //-127
+
+byteb4 = (byte)130; //-126
+
+
+
+byte的范围：-128 ~ 127
+
+
+
+128：10000000
+
+-128：10000000 (这里的1即是符号位，也是数值位)
+</code></pre><p>3:数据类型转换之默认转换</p>
+<pre><code>byte,short,char-- int -- long -- float -- double
+
+
+
+long:8个字节
+
+float：4个字节
+
+
+
+A:它们底层的存储结构不同。
+
+B:float表示的数据范围比long的范围要大
+
+   long：2^63-1
+
+   float：3.4*10^38 &gt; 2*10^38 &gt; 2*8^38 =2*2^3^38 = 2*2^114 &gt; 2^63-1
+</code></pre><p>4:Java语言中的字符char可以存储一个中文汉字吗?为什么呢?</p>
+<pre><code>可以。因为java语言中的字符占用两个字节。
+
+
+
+Java语言采用的是Unicode编码。
+</code></pre>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Java/">Java</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/Java基础知识/">Java基础知识</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+	<div id="comment">
+		
+	<!-- 多说评论框 start -->
+	 <div class="ds-thread" data-thread-key="/2017/03/13/Java学习笔记_day2/" data-title="Java学习笔记_day2" data-url="http://yoursite.com/2017/03/13/Java学习笔记_day2/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"wwwpugongstudio"};
+	  (function() {
+	    var ds = document.createElement('script');
+	    ds.type = 'text/javascript';ds.async = true;
+	    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+	    ds.charset = 'UTF-8';
+	    (document.getElementsByTagName('head')[0]
+	     || document.getElementsByTagName('body')[0]).appendChild(ds);
+	  })();
+	  </script>
+	<!-- 多说公共JS代码 end -->
+
+	</div>
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2017 天意
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>
