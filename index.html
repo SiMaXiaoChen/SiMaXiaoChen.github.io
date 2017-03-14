@@ -65,13 +65,371 @@
 
   
     
-    <h3 class="article-title"><a href="/2017/03/14/Manacher算法及其Java实现/"><span>Manacher算法及其Java实现</span></a></h3>
+    <h3 class="article-title"><a href="/2017/03/14/algorithm/最长回文子串—4种解法（Java版）/"><span>最长回文子串—4种解法（Java版）</span></a></h3>
     
   
 
   <div class="article-top-meta">
     <span class="posted-on">
-      <a href="/2017/03/14/Manacher算法及其Java实现/" rel="bookmark">
+      <a href="/2017/03/14/algorithm/最长回文子串—4种解法（Java版）/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-03-14T08:12:33.896Z">
+          2017-03-14
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定一个字符串，求它的最长回文子串的长度。</p>
+<h3 id="暴力破解"><a href="#暴力破解" class="headerlink" title="暴力破解"></a>暴力破解</h3><p>最容易想到的就是暴力破解，求出每一个子串，之后判断是不是回文，找到最长的那个。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        System.out.println(longestPalindrome1(<span class="string">"aaba"</span>));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">longestPalindrome1</span><span class="params">(String s)</span> </span>&#123;</div><div class="line"></div><div class="line">        <span class="keyword">int</span> maxPalinLength = <span class="number">0</span>;</div><div class="line">        String longestPalindrome = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length(); i++) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; s.length(); j++) &#123;</div><div class="line">                <span class="keyword">int</span> len = j - i;</div><div class="line"><span class="comment">//               注意在截取字串的时候好是包头不包尾</span></div><div class="line">                String curr = s.substring(i, j+<span class="number">1</span>);</div><div class="line">                <span class="keyword">if</span> (isRalindrome(curr)) &#123;</div><div class="line">                    <span class="keyword">if</span> (len &gt; maxPalinLength) &#123;</div><div class="line">                        longestPalindrome = curr;</div><div class="line">                        maxPalinLength = len;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> longestPalindrome;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isRalindrome</span><span class="params">(String s)</span> </span>&#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length() - <span class="number">1</span>; i++) &#123;</div><div class="line">            <span class="keyword">if</span> (s.charAt(i) != s.charAt(s.length() - <span class="number">1</span> - i)) &#123;</div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<h3 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h3><p>回文字符串的子串也是回文，比如P[i,j]（表示以i开始以j结束的子串）是回文字符串，那么P[i+1,j-1]也是回文字符串。这样最长回文子串就能分解成一系列子问题了。</p>
+<p>核心思路就是从左开始遍历，然后不断的从原字符串中拿出1到length-1长度的字串，进行判断</p>
+<p>这里用一个二维数组来表示回文字符串的起始位置和结束位置，值<code>1</code>代表的是回文字符串，<code>0</code>代表不是</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">     System.out.println(longestPalindrome2(<span class="string">"1263625"</span>));<span class="comment">//babcbabcbaccba</span></div><div class="line"> &#125;</div><div class="line"> </div><div class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">longestPalindrome2</span><span class="params">(String s)</span> </span>&#123;</div><div class="line">     <span class="keyword">if</span> (s == <span class="keyword">null</span>)</div><div class="line">         <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line"></div><div class="line">     <span class="keyword">if</span>(s.length() &lt;=<span class="number">1</span>)</div><div class="line">         <span class="keyword">return</span> s;</div><div class="line"></div><div class="line">     <span class="keyword">int</span> maxLen = <span class="number">0</span>;</div><div class="line">     String longestStr = <span class="keyword">null</span>;</div><div class="line"></div><div class="line">     <span class="keyword">int</span> length = s.length();</div><div class="line"></div><div class="line">     <span class="keyword">int</span>[][] table = <span class="keyword">new</span> <span class="keyword">int</span>[length][length];</div><div class="line"></div><div class="line">     <span class="comment">//every single letter is palindrome</span></div><div class="line">     <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</div><div class="line">         table[i][i] = <span class="number">1</span>;</div><div class="line">     &#125;</div><div class="line">     printTable(table);</div><div class="line"></div><div class="line">     <span class="comment">//e.g. bcba</span></div><div class="line">     <span class="comment">//two consecutive same letters are palindrome</span></div><div class="line">     <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= length - <span class="number">2</span>; i++) &#123;</div><div class="line">         <span class="comment">//System.out.println("i="+i+"  "+s.charAt(i));</span></div><div class="line">         <span class="comment">//System.out.println("i="+i+"  "+s.charAt(i+1));</span></div><div class="line">         <span class="keyword">if</span> (s.charAt(i) == s.charAt(i + <span class="number">1</span>))&#123;</div><div class="line">             table[i][i + <span class="number">1</span>] = <span class="number">1</span>;</div><div class="line">             longestStr = s.substring(i, i + <span class="number">2</span>);</div><div class="line">         &#125;</div><div class="line">     &#125;</div><div class="line">     System.out.println(longestStr);</div><div class="line">     printTable(table);</div><div class="line">     <span class="comment">//condition for calculate whole table</span></div><div class="line">     <span class="keyword">for</span> (<span class="keyword">int</span> l = <span class="number">3</span>; l &lt;= length; l++) &#123;</div><div class="line">         <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= length-l; i++) &#123;</div><div class="line">             <span class="keyword">int</span> j = i + l - <span class="number">1</span>;</div><div class="line">             <span class="keyword">if</span> (s.charAt(i) == s.charAt(j)) &#123;</div><div class="line">                 table[i][j] = table[i + <span class="number">1</span>][j - <span class="number">1</span>];</div><div class="line">                 <span class="keyword">if</span> (table[i][j] == <span class="number">1</span> &amp;&amp; l &gt; maxLen)</div><div class="line">                     longestStr = s.substring(i, j + <span class="number">1</span>);</div><div class="line">             &#125; <span class="keyword">else</span> &#123;</div><div class="line">                 table[i][j] = <span class="number">0</span>;</div><div class="line">             &#125;</div><div class="line">             printTable(table);</div><div class="line">         &#125;</div><div class="line">     &#125;</div><div class="line"></div><div class="line">     <span class="keyword">return</span> longestStr;</div><div class="line"> &#125;</div><div class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printTable</span><span class="params">(<span class="keyword">int</span>[][] x)</span></span>&#123;</div><div class="line">     <span class="keyword">for</span>(<span class="keyword">int</span> [] y : x)&#123;</div><div class="line">         <span class="keyword">for</span>(<span class="keyword">int</span> z: y)&#123;</div><div class="line">             System.out.print(z + <span class="string">" "</span>);</div><div class="line">         &#125;</div><div class="line">         System.out.println();</div><div class="line">     &#125;</div><div class="line">     System.out.println(<span class="string">"------"</span>);</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p><code>table[i][j] = table[i + 1][j - 1]</code>代码的赋值就是体现P[i,j]（表示以i开始以j结束的子串）是回文字符串，那么P[i+1,j-1]也是回文字符。</p>
+<h3 id="中心扩展"><a href="#中心扩展" class="headerlink" title="中心扩展"></a>中心扩展</h3><p>​    因为回文字符串是以中心轴对称的，所以如果我们从下标 i 出发，用2个指针向 i 的两边扩展判断是否相等，那么只需要对0到n-1的下标都做此操作，就可以求出最长的回文子串。但需要注意的是，回文字符串有奇偶对称之分，即”abcba”与”abba”2种类型，因此需要在代码编写时都做判断。<br>设函数int Palindromic ( string &amp;s, int i ,int j) 是求由下标 i 和 j 向两边扩展的回文串的长度，那么对0至n-1的下标，调用2次此函数：<br>int lenOdd =  Palindromic( str, i, i ) 和 int lenEven = Palindromic (str , i , j )，即可求得以i 下标为奇回文和偶回文的子串长度。<br>接下来以lenOdd和lenEven中的最大值与当前最大值max比较即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span>  <span class="keyword">static</span> String <span class="title">longestPalindrome</span><span class="params">(String s)</span> </span>&#123;  </div><div class="line">    <span class="keyword">if</span> (s.isEmpty()) &#123;  </div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;  </div><div class="line">    &#125;  </div><div class="line">    <span class="keyword">if</span> (s.length() == <span class="number">1</span>) &#123;  </div><div class="line">        <span class="keyword">return</span> s;  </div><div class="line">    &#125;  </div><div class="line">    String longest = s.substring(<span class="number">0</span>, <span class="number">1</span>);  </div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length(); i++) &#123;  </div><div class="line">        <span class="comment">// get longest palindrome with center of i  </span></div><div class="line">        String tmp = helper(s, i, i);  </div><div class="line">        <span class="keyword">if</span> (tmp.length() &gt; longest.length()) &#123;  </div><div class="line">            longest = tmp;  </div><div class="line">        &#125;  </div><div class="line">  </div><div class="line">        <span class="comment">// get longest palindrome with center of i, i+1  </span></div><div class="line">        tmp = helper(s, i, i + <span class="number">1</span>);  </div><div class="line">        <span class="keyword">if</span> (tmp.length() &gt; longest.length()) &#123;  </div><div class="line">            longest = tmp;  </div><div class="line">        &#125;  </div><div class="line">    &#125;  </div><div class="line">    <span class="keyword">return</span> longest;  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line"><span class="comment">// Given a center, either one letter or two letter,  </span></div><div class="line"><span class="comment">// Find longest palindrome  </span></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">helper</span><span class="params">(String s, <span class="keyword">int</span> begin, <span class="keyword">int</span> end)</span> </span>&#123;  </div><div class="line">    <span class="keyword">while</span> (begin &gt;= <span class="number">0</span> &amp;&amp; end &lt;= s.length() - <span class="number">1</span>  </div><div class="line">            &amp;&amp; s.charAt(begin) == s.charAt(end)) &#123;  </div><div class="line">        begin--;  </div><div class="line">        end++;  </div><div class="line">    &#125;  </div><div class="line">    String subS = s.substring(begin + <span class="number">1</span>, end);  </div><div class="line">    <span class="keyword">return</span> subS;  </div><div class="line">&#125;  </div><div class="line">  </div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </div><div class="line">    System.out.println(longestPalindrome(<span class="string">"ABCCBA"</span>));<span class="comment">//babcbabcbaccba  </span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Manacher算法"><a href="#Manacher算法" class="headerlink" title="Manacher算法"></a>Manacher算法</h3><p>参考：<a href="http://pugong.studio/2017/03/14/Manacher算法及其Java实现/" target="_blank" rel="external">Manacher算法及其Java实现</a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>整理自：<a href="http://blog.csdn.net/soszou/article/details/37312317" target="_blank" rel="external">http://blog.csdn.net/soszou/article/details/37312317</a></p>
+<p><a href="http://www.cnblogs.com/leoin2012/p/3984997.html" target="_blank" rel="external">http://www.cnblogs.com/leoin2012/p/3984997.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Algorithm/">Algorithm</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/暴力法/">暴力法</a><a href="/tags/动态规划/">动态规划</a><a href="/tags/中心扩展/">中心扩展</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2017/03/14/algorithm/最长回文子串—4种解法（Java版）/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2017/03/14/algorithm/字符串解析（Java）/"><span>字符串解析（Java）</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/03/14/algorithm/字符串解析（Java）/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-03-14T08:12:33.865Z">
+          2017-03-14
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>输入一个由数字组成的字符串，把它转换成整数并输出。例如：输入字符串”123”，输出整数123。</p>
+<p>实现字符串转换成整数的功能，不能使用库函数</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>可以使用<code>char[i]-&#39;0&#39;</code>从而得到每一个数字，然后再乘以位数即可得到整数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        System.out.println(StrToInt(<span class="keyword">new</span> String(<span class="string">"123456"</span>).toCharArray()));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">StrToInt</span><span class="params">(<span class="keyword">char</span>[] chars)</span></span>&#123;</div><div class="line"><span class="comment">//      每一位的具体数字</span></div><div class="line">        <span class="keyword">int</span> index;</div><div class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; chars.length; i++) &#123;</div><div class="line">            index = chars[i]-<span class="string">'0'</span>;</div><div class="line">            sum+=index*Math.pow(<span class="number">10</span>,chars.length-<span class="number">1</span>-i);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> sum;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>但是还有部分问题：</p>
+<ol>
+<li>正负符号：整数不仅包含数字，还有可能是以’+’或’-‘开头表示正负整数，因此如果第一个字符是’-‘号，则要把得到的整数转换成负整数。</li>
+<li>非法字符：输入的字符串中可能含有不是数字的字符。因此，每当碰到这些非法的字符，程序应停止转换。</li>
+<li>整型溢出：输入的数字是以字符串的形式输入，因此输入一个很长的字符串将可能导致溢出。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//表示的是进制</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span> radis = <span class="number">10</span>;</div><div class="line"></div><div class="line">  <span class="comment">/**</span></div><div class="line">   * 将STRING类型转化为int类型，有如下几个步骤</div><div class="line">   * 1、判断正负</div><div class="line">   * 2、判断非整数</div><div class="line">   * 3、“321” 转为 321 可以看做是 3*100 + 2*10 + 1 这等于是每次循环时，都对前几位数字*10再累减</div><div class="line">   * 4、判断是否超出int的最大值范围(-2^31~2^31-1)</div><div class="line">   * 判断是否超过最大值范围 不能直接拿值和Integer的max比较, 因为可能会发生溢出  应该使用 max/10来比较</div><div class="line">   */</div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">atoi</span><span class="params">(String str)</span> </span>&#123;</div><div class="line"></div><div class="line">      <span class="keyword">if</span> (str == <span class="keyword">null</span> || <span class="string">""</span>.equals(str)) &#123;</div><div class="line">          <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">      &#125;</div><div class="line">      String s = str.trim();</div><div class="line">      <span class="keyword">int</span> result = <span class="number">0</span>;</div><div class="line">      <span class="keyword">boolean</span> negative = <span class="keyword">false</span>;</div><div class="line">      <span class="keyword">int</span> i = <span class="number">0</span>, len = s.length();</div><div class="line">      <span class="keyword">int</span> limit = -Integer.MAX_VALUE;</div><div class="line">      <span class="keyword">int</span> multmin;</div><div class="line">      <span class="keyword">int</span> digit;</div><div class="line">      <span class="keyword">try</span> &#123;</div><div class="line"></div><div class="line">          <span class="keyword">if</span> (len &gt; <span class="number">0</span>) &#123;</div><div class="line">              <span class="keyword">char</span> firstChar = s.charAt(<span class="number">0</span>);</div><div class="line">              <span class="keyword">if</span> (firstChar &lt; <span class="string">'0'</span>) &#123; <span class="comment">// Possible leading "+" or "-"</span></div><div class="line">                  <span class="keyword">if</span> (firstChar == <span class="string">'-'</span>) &#123;</div><div class="line">                      negative = <span class="keyword">true</span>;</div><div class="line">                      limit = Integer.MIN_VALUE;</div><div class="line">                  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (firstChar != <span class="string">'+'</span>)</div><div class="line">                      <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"char Exception"</span>);</div><div class="line"></div><div class="line">                  <span class="keyword">if</span> (len == <span class="number">1</span>) <span class="comment">// Cannot have lone "+" or "-"</span></div><div class="line">                      <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">"char Exception"</span>);</div><div class="line">                  i++;</div><div class="line">              &#125;</div><div class="line">              multmin = limit / radis;</div><div class="line"></div><div class="line">              <span class="keyword">while</span> (i &lt; len) &#123;</div><div class="line">                  digit = Character.digit(s.charAt(i++), radis);</div><div class="line">                  <span class="keyword">if</span> (digit &lt; <span class="number">0</span>) &#123;</div><div class="line">                      <span class="keyword">return</span> negative ? result : -result;</div><div class="line">                  &#125;</div><div class="line">                  <span class="keyword">if</span> (result &lt; multmin) &#123;</div><div class="line">                      <span class="keyword">if</span> (negative) &#123;</div><div class="line">                          <span class="keyword">return</span> Integer.MIN_VALUE;</div><div class="line">                      &#125; <span class="keyword">else</span> &#123;</div><div class="line">                          <span class="keyword">return</span> Integer.MAX_VALUE;</div><div class="line">                      &#125;</div><div class="line">                  &#125;</div><div class="line">                  result = result * radis;</div><div class="line">                  <span class="keyword">if</span> (result &lt; limit + digit) &#123;</div><div class="line">                      <span class="keyword">if</span> (negative) &#123;</div><div class="line">                          <span class="keyword">return</span> Integer.MIN_VALUE;</div><div class="line">                      &#125; <span class="keyword">else</span> &#123;</div><div class="line">                          <span class="keyword">return</span> Integer.MAX_VALUE;</div><div class="line">                      &#125;</div><div class="line"></div><div class="line">                  &#125;</div><div class="line">                  result -= digit;</div><div class="line">              &#125;</div><div class="line">          &#125;</div><div class="line"></div><div class="line">      &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">          e.printStackTrace();</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">return</span> negative ? result : -result;</div><div class="line">  &#125;</div></pre></td></tr></table></figure>
+<p>无论是正数还是负数都是按照*进制然后累减（目前都是负数），最后根据nagative来判断正负号</p>
+<h2 id="题目2"><a href="#题目2" class="headerlink" title="题目2"></a>题目2</h2><p>回文，英文palindrome，指一个顺着读和反过来读都一样的字符串，比如madam、我爱我，这样的短句在智力性、趣味性和艺术性上都颇有特色，中国历史上还有很多有趣的回文诗。</p>
+<p>那么，我们的第一个问题就是：判断一个字串是否是回文？</p>
+<h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><p>同时从字符串头尾开始向中间扫描字串，如果所有字符都一样，那么这个字串就是一个回文。采用这种方法的话，我们只需要维护头部和尾部两个扫描指针即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isPalindromeV1</span><span class="params">(String str)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">null</span> == str || <span class="number">0</span> == str.length()) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">int</span> length = str.length();</div><div class="line">    <span class="keyword">if</span> (<span class="number">1</span> == length) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> leftFlag = <span class="number">0</span>, rightFlag = length - <span class="number">1</span>; leftFlag &lt; rightFlag; leftFlag++, rightFlag--) &#123;</div><div class="line">        <span class="keyword">if</span> (str.charAt(leftFlag) != str.charAt(rightFlag))</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上述解法一从两头向中间扫描，那么是否还有其它办法呢？我们可以先从中间开始、然后向两边扩展查看字符是否相等</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isPalindromeV2</span><span class="params">(String str)</span> </span>&#123;</div><div class="line">     <span class="keyword">if</span> (<span class="keyword">null</span> == str || <span class="number">0</span> == str.length()) &#123;</div><div class="line">         <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">     &#125;</div><div class="line"></div><div class="line">     <span class="keyword">int</span> length = str.length();</div><div class="line">     <span class="keyword">if</span> (<span class="number">1</span> == length) &#123;</div><div class="line">         <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">     &#125;</div><div class="line"></div><div class="line">     <span class="keyword">int</span> leftFlag = <span class="number">0</span>;</div><div class="line">     <span class="keyword">int</span> rightFlag = length;</div><div class="line">     leftFlag = length / <span class="number">2</span> - <span class="number">1</span>;</div><div class="line">     <span class="keyword">if</span> (<span class="number">0</span> == length % <span class="number">2</span>) &#123;</div><div class="line">         rightFlag = leftFlag + <span class="number">1</span>;</div><div class="line">     &#125; <span class="keyword">else</span> &#123;</div><div class="line">         rightFlag = leftFlag + <span class="number">2</span>;</div><div class="line">     &#125;</div><div class="line"></div><div class="line">     <span class="keyword">for</span> (; leftFlag &gt;= <span class="number">0</span>; leftFlag--, rightFlag++) &#123;</div><div class="line">         <span class="keyword">if</span> (str.charAt(leftFlag) != str.charAt(rightFlag))</div><div class="line">             <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">     &#125;</div><div class="line"></div><div class="line">     <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>整理自：<a href="https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/01.04.md" target="_blank" rel="external">https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/01.04.md</a></p>
+<p><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/code/java/chapter1/Palindrome.java" target="_blank" rel="external">https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/code/java/chapter1/Palindrome.java</a></p>
+<p><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/code/java/chapter1/StringToInt" target="_blank" rel="external">https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/code/java/chapter1/StringToInt</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Algorithm/">Algorithm</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/字符串解析/">字符串解析</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2017/03/14/algorithm/字符串解析（Java）/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2017/03/14/algorithm/字符串旋转（Java）/"><span>字符串旋转（Java）</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/03/14/algorithm/字符串旋转（Java）/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-03-14T08:12:33.833Z">
+          2017-03-14
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h2><p>给定一个字符串，要求把字符串前面的若干个字符移动到字符串的尾部，如把字符串“abcdef”前面的2个字符’a’和’b’移动到字符串的尾部，使得原字符串变成字符串“cdefab”。请写一个函数完成此功能，要求对长度为n的字符串操作的时间复杂度为 O(n)，空间复杂度为 O(1)。</p>
+<hr>
+<p>将一个字符串分成X和Y两个部分，在每部分字符串上定义反转操作，如X^T，即把X的所有字符反转（如，X=”abc”，那么X^T=”cba”），那么就得到下面的结论：(X^TY^T)^T=YX，显然就解决了字符串的反转问题。</p>
+<p>例如，字符串 abcdef ，若要让def翻转到abc的前头，只要按照下述3个步骤操作即可：</p>
+<ol>
+<li>首先将原字符串分为两个部分，即X:abc，Y:def；</li>
+<li>将X反转，X-&gt;X^T，即得：abc-&gt;cba；将Y反转，Y-&gt;Y^T，即得：def-&gt;fed。</li>
+<li>反转上述步骤得到的结果字符串X^TY^T，即反转字符串cbafed的两部分（cba和fed）给予反转，cbafed得到defabc，形式化表示为(X^TY^T)^T=YX，这就实现了整个反转。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 1.1 旋转字符串</div><div class="line"> * (github链接：https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/01.01.md)</div><div class="line"> *</div><div class="line"> * Created by lingguo on 14-6-26.</div><div class="line"> */</div><div class="line">public class RotateString &#123;</div><div class="line">    private Logger logger = LoggerFactory.getLogger(this.getClass());</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 问题描述：</div><div class="line">     *  给定一个字符串，要求把字符串前面的若干个字符移动到字符串的尾部，如把字符串“abcdef”前面的2个字符&apos;a&apos;和&apos;b&apos;移动到字符串</div><div class="line">     *  的尾部，使得原字符串变成字符串“cdefab”。请写一个函数完成此功能，要求对长度为n的字符串操作的时间复杂度为 O(n)，空间</div><div class="line">     *  复杂度为 O(1)。</div><div class="line">     *</div><div class="line">     * 思路：</div><div class="line">     *  三步旋转法：(X^TY^T)^T=YX</div><div class="line">     *</div><div class="line">     * @param str   输入串</div><div class="line">     * @param n     前n个字符移到串的最后</div><div class="line">     * @return      翻转后的串</div><div class="line">     */</div><div class="line">     public static char[] leftRotateString(char[] str, int n) &#123;</div><div class="line">         char[] rotateLeft = rotate(str, 0, n - 1);</div><div class="line">         char[] rotateRight = rotate(rotateLeft, n, str.length - 1);</div><div class="line">         char[] result = rotate(rotateRight, 0, str.length - 1);</div><div class="line">         return result;</div><div class="line">     &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 将字符串翻转</div><div class="line">     *</div><div class="line">     * @param str       输入串</div><div class="line">     * @param start     字符串中的起始索引(包括)</div><div class="line">     * @param end       字符串中的终止索引(包括)</div><div class="line">     * @return          翻转后的串</div><div class="line">     */</div><div class="line">    private static char[] rotate(char[] str, int start, int end) &#123;</div><div class="line">        while (start &lt; end) &#123;</div><div class="line">            char tmp = str[start];</div><div class="line">            str[start] = str[end];</div><div class="line">            str[end] = tmp;</div><div class="line">            start++;</div><div class="line">            end--;</div><div class="line">        &#125;</div><div class="line">        return str;</div><div class="line">    &#125;</div><div class="line">/*********************************************************************************************************/</div><div class="line"></div><div class="line"></div><div class="line">    /**</div><div class="line">     * 问题描述：</div><div class="line">     *  链表翻转。给出一个链表和一个数k，比如，链表为1→2→3→4→5→6，k=2，则翻转后2→1→6→5→4→3，若k=3，翻转后</div><div class="line">     *  3→2→1→6→5→4，若k=4，翻转后4→3→2→1→6→5，用程序实现。</div><div class="line">     *</div><div class="line">     * 思路：</div><div class="line">     *  使用反转链表的思路，将链表的前部分反转，然后将链表的后部分反转，最后将前部分链表的尾节点指向后部分链表的头节点。</div><div class="line">     *</div><div class="line">     * @param head  链表的头节点</div><div class="line">     * @param n     将前n个节点反转，剩下的节点反转</div><div class="line">     * @return      翻转后链表的头节点</div><div class="line">     */</div><div class="line">    public static ListNode rotateLinkList(ListNode head, int n) &#123;</div><div class="line">        ListNode leftEnd = head;</div><div class="line">        int i = 0;</div><div class="line">        while (i++ &lt; n) &#123;</div><div class="line">            leftEnd = leftEnd.next;     // 左链表的终点</div><div class="line">        &#125;</div><div class="line">        ListNode leftRotateStart = rotateList(head, leftEnd);       // 左部分反转</div><div class="line">        ListNode rightRotateStart = rotateList(leftEnd, null);      // 右部分反转</div><div class="line">        head.next = rightRotateStart;                               // 左右部分连接起来</div><div class="line">        return leftRotateStart;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 将链表从起点start(inclusive)到终点end(exclusive)的节点反转</div><div class="line">     *</div><div class="line">     * @param start     链表的起点(包括)</div><div class="line">     * @param end       链表的终点(不包括)</div><div class="line">     * @return          反转后链表的头节点</div><div class="line">     */</div><div class="line">    private static ListNode rotateList(ListNode start, ListNode end) &#123;</div><div class="line">        ListNode pre = null;</div><div class="line">        ListNode cur = start;</div><div class="line">        ListNode next = cur.next;</div><div class="line">        while (cur != end) &#123;</div><div class="line">            next = cur.next;</div><div class="line">            cur.next = pre;</div><div class="line">            pre = cur;</div><div class="line">            cur = next;</div><div class="line">        &#125;</div><div class="line">        return pre;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 问题描述：</div><div class="line">     *  编写程序，在原字符串中把字符串尾部的m个字符移动到字符串的头部，要求：长度为n的字符串操作时间复杂度为O(n)，空间复杂度</div><div class="line">     *  为O(1)。 例如，原字符串为”Ilovebaofeng”，m=7，输出结果为：”baofengIlove”。</div><div class="line">     *</div><div class="line">     * 思路：</div><div class="line">     *  与左旋转字符串的思路是一样的；</div><div class="line">     *</div><div class="line">     * @param str       输入串</div><div class="line">     * @param n         将最后n个字符移到串的最前面</div><div class="line">     * @return          翻转后的串</div><div class="line">     */</div><div class="line">    public static char[] rightRotateString(char[] str, int n) &#123;</div><div class="line">        rotate(str, 0, str.length - n - 1);</div><div class="line">        rotate(str, str.length - n, str.length - 1);</div><div class="line">        char[] result = rotate(str, 0, str.length - 1);</div><div class="line">        return result;</div><div class="line">    &#125;</div><div class="line">/**********************************************************************************************************/</div><div class="line"></div><div class="line">    /**</div><div class="line">     * 问题描述：</div><div class="line">     *  单词翻转。输入一个英文句子，翻转句子中单词的顺序，但单词内字符的顺序不变，句子中单词以空格符隔开。为简单起见，标点符</div><div class="line">     *  号和普通字母一样处理。例如，输入“I am a student.”，则输出“student. a am I”。</div><div class="line">     *</div><div class="line">     * 思路：</div><div class="line">     *  先将每个单词反转，然后将整个句子反转；</div><div class="line">     *</div><div class="line">     * @param sentence      输入的句子</div><div class="line">     * @return              翻转后的句子</div><div class="line">     */</div><div class="line">    public static char[] rotateSentence(char[] sentence) &#123;</div><div class="line">        int start = 0;</div><div class="line">        int end = 0;</div><div class="line">        int i = 0;</div><div class="line">        while (i &lt; sentence.length) &#123;</div><div class="line">            // 空格是单词的分隔符</div><div class="line">            while (i &lt; sentence.length &amp;&amp; sentence[i] != &apos; &apos;) &#123;</div><div class="line">                i++;</div><div class="line">            &#125;</div><div class="line">            end = i - 1;</div><div class="line">            sentence = rotate(sentence, start, end);        // 旋转一个单词</div><div class="line">            start = (++i);</div><div class="line">        &#125;</div><div class="line">        sentence = rotate(sentence, 0, sentence.length - 1);    // 翻转整个句子</div><div class="line">        return sentence;</div><div class="line">    &#125;</div><div class="line">/*********************************************************************************************/</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>整理自：<a href="https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/code/java/chapter1/1.1：左旋转字符串.java" target="_blank" rel="external">https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/code/java/chapter1/1.1：左旋转字符串.java</a></p>
+<p><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/01.01.md" target="_blank" rel="external">https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/01.01.md</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Algorithm/">Algorithm</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/字符串旋转/">字符串旋转</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2017/03/14/algorithm/字符串旋转（Java）/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2017/03/14/algorithm/字符串包含（Java）/"><span>字符串包含（Java）</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/03/14/algorithm/字符串包含（Java）/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-03-14T08:12:33.802Z">
+          2017-03-14
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>给定两个分别由字母组成的字符串A和字符串B，字符串B的长度比字符串A短。请问，如何最快地判断字符串B中所有字母是否都在字符串A里？</p>
+<p>为了简单起见，我们规定输入的字符串只包含大写英文字母，请实现函数bool StringContains(string &amp;A, string &amp;B)</p>
+<p>比如，如果是下面两个字符串：</p>
+<p>String 1：ABCD</p>
+<p>String 2：BAD</p>
+<p>答案是true，即String2里的字母在String1里也都有，或者说String2是String1的真子集。</p>
+<p>如果是下面两个字符串：</p>
+<p>String 1：ABCD</p>
+<p>String 2：BCE</p>
+<p>答案是false，因为字符串String2里的E字母不在字符串String1里。</p>
+<p>同时，如果string1：ABCD，string 2：AA，同样返回true。</p>
+<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><p>思路一：遍历字符串B，判断每一个字符是否出现在字符串A中，时间复杂度O(n*m)，空间复杂度O(1)</p>
+<p>增加一个数据，用来记录光标的移动</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    System.out.println(con(<span class="keyword">new</span> <span class="keyword">char</span>[]&#123;<span class="string">'A'</span>, <span class="string">'B'</span>, <span class="string">'C'</span>&#125;, <span class="keyword">new</span> <span class="keyword">char</span>[]&#123;<span class="string">'B'</span>&#125;));</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">con</span><span class="params">(<span class="keyword">char</span>[] charA, <span class="keyword">char</span>[] charB)</span> </span>&#123;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; charB.length; i++) &#123;</div><div class="line">        <span class="keyword">int</span> index;</div><div class="line">        <span class="keyword">for</span> (index = <span class="number">0</span>; (index &lt; charA.length) &amp;&amp; (charA[index] != charB[i]); index++) &#123;</div><div class="line"></div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (index&gt;=charA.length)&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>思路二：先对两个字符串排序，然后同时遍历字符串A和B，判断B中的每一个字符是否都在字符串A中。时间复杂度O(nlogn)，空间复杂度O(1)</p>
+<p>这次增加两个光标，用于指定两个char类型的数组：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    <span class="keyword">char</span>[] charA = &#123;<span class="string">'D'</span>, <span class="string">'A'</span>, <span class="string">'C'</span>&#125;;</div><div class="line">    <span class="keyword">char</span>[] charB = &#123;<span class="string">'D'</span>, <span class="string">'C'</span>&#125;;</div><div class="line">    sort(charA);</div><div class="line">    sort(charB);</div><div class="line">    System.out.println(con(charA, charB));</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">con</span><span class="params">(<span class="keyword">char</span>[] charA, <span class="keyword">char</span>[] charB)</span> </span>&#123;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> a = <span class="number">0</span>, b = <span class="number">0</span>; b &lt; charB.length; ) &#123;</div><div class="line">        <span class="keyword">while</span> ((a &lt; charA.length) &amp;&amp; (charA[a] &lt; charA[b])) &#123;</div><div class="line">            ++a;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> ((a&gt;charA.length)||(charA[a]&gt;charB[b]))&#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">        ++b;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div><div class="line"> <span class="comment">/**</span></div><div class="line"> * 选择排序算法</div><div class="line"> * 在未排序序列中找到最小元素，存放到排序序列的起始位置</div><div class="line"> * 再从剩余未排序元素中继续寻找最小元素，然后放到排序序列第二个位置。</div><div class="line"> * 以此类推，直到所有元素均排序完毕。</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(<span class="keyword">char</span>[] chars)</span> </span>&#123;</div><div class="line">    <span class="keyword">char</span> temp;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; chars.length; i++) &#123;</div><div class="line">        <span class="keyword">int</span> min = i;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; chars.length; j++) &#123;</div><div class="line">            <span class="keyword">if</span> (chars[min] &gt; chars[j]) &#123;</div><div class="line">                min = j;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        temp = chars[i];</div><div class="line">        chars[i] = chars[min];</div><div class="line">        chars[min] = temp;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>思路三：将每一个字符映射到一个素数上，对字符串A中的每一个字符表示的素数，求累积；然后遍历字符串B，用每一个字符表示的素数去除字符串A的累积，判断余数是否为0。时间复杂度：O(n)，空间复杂度O(1)。可能存在的问题：乘积时可能会溢出。</p>
+<p>假设有一个仅由字母组成字串，让每个字母与一个素数对应，从2开始，往后类推，A对应2，B对应3，C对应5，……。遍历第一个字串，把每个字母对应素数相乘。最终会得到一个整数。</p>
+<p>利用上面字母和素数的对应关系，对应第二个字符串中的字母，然后轮询，用每个字母对应的素数除前面得到的整数。如果结果有余数，说明结果为false。如果整个过程中没有余数，则说明第二个字符串是第一个的子集了（判断是不是真子集，可以比较两个字符串对应的素数乘积，若相等则不是真子集）。</p>
+<p>思路总结如下：</p>
+<ol>
+<li>按照从小到大的顺序，用26个素数分别与字符’A’到’Z’一一对应。</li>
+<li>遍历长字符串，求得每个字符对应素数的乘积。</li>
+<li>遍历短字符串，判断乘积能否被短字符串中的字符对应的素数整除。</li>
+<li>输出结果。</li>
+</ol>
+<p>如前所述，算法的时间复杂度为O(m+n)的最好的情况为O(n)（遍历短的字符串的第一个数，与长字符串素数的乘积相除，即出现余数，便可退出程序，返回false），n为长字串的长度，空间复杂度为O(1)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">     <span class="keyword">char</span>[] charA = &#123;<span class="string">'D'</span>, <span class="string">'A'</span>, <span class="string">'C'</span>&#125;;</div><div class="line">     <span class="keyword">char</span>[] charB = &#123;<span class="string">'D'</span>, <span class="string">'C'</span>&#125;;</div><div class="line">     System.out.println(con(charA, charB));</div><div class="line"> &#125;</div><div class="line"></div><div class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">con</span><span class="params">(<span class="keyword">char</span>[] charA, <span class="keyword">char</span>[] charB)</span> </span>&#123;</div><div class="line">     <span class="keyword">int</span>[] p = &#123;<span class="number">2</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">11</span>, <span class="number">13</span>, <span class="number">17</span>, <span class="number">19</span>, <span class="number">23</span>, <span class="number">29</span>, <span class="number">31</span>,</div><div class="line">             <span class="number">37</span>, <span class="number">41</span>, <span class="number">43</span>, <span class="number">47</span>, <span class="number">53</span>, <span class="number">59</span>, <span class="number">61</span>, <span class="number">67</span>, <span class="number">71</span>, <span class="number">73</span>, <span class="number">79</span>, <span class="number">83</span>, <span class="number">89</span>, <span class="number">97</span>, <span class="number">101</span>&#125;;</div><div class="line">     <span class="keyword">int</span> sum = <span class="number">1</span>;</div><div class="line">     <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; charA.length; i++) &#123;</div><div class="line">         sum *= p[charA[i] - <span class="string">'A'</span>];</div><div class="line">     &#125;</div><div class="line">     <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; charB.length; i++) &#123;</div><div class="line">         <span class="keyword">if</span> (sum % p[charB[i] - <span class="string">'A'</span>] != <span class="number">0</span>) &#123;</div><div class="line">             <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">         &#125;</div><div class="line">     &#125;</div><div class="line">     <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line"> &#125;</div></pre></td></tr></table></figure>
+<p>思路四：如果可以使用Java中的数据结构，HashMap和Set可以很方便地解决问题；如果不能，我们可以构造一个“签名”，将每一个字符映射为整数(范围：0到26)，然后遍历A中的每一个字符，将32位整数的对应位置1(整数初始为0)，最后遍历B中的每一个字符，判断每一个字符代表的整数在整数中是否已置位。时间复杂度O(n)，空间复杂度O(1)，思路四为最优算法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 位与( &amp; )</span></div><div class="line"><span class="comment">// 位与：第一个操作数的的第n位于第二个操作数的第n位如果都是1，那么结果的第n为也为1，否则为0</span></div><div class="line">System.out.println(<span class="number">5</span> &amp; <span class="number">3</span>);<span class="comment">// 结果为1</span></div><div class="line">System.out.println(<span class="number">4</span> &amp; <span class="number">1</span>);<span class="comment">// 结果为0</span></div><div class="line">	</div><div class="line"><span class="comment">// 位或( | )</span></div><div class="line"><span class="comment">// 第一个操作数的的第n位于第二个操作数的第n位 只要有一个是1，那么结果的第n为也为1，否则为0</span></div><div class="line">System.out.println(<span class="number">5</span> | <span class="number">3</span>);<span class="comment">// 结果为7</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">// 左移( &lt;&lt; )</span></div><div class="line"><span class="comment">// 0000 0000 0000 0000 0000 0000 0000 0101 然后左移2位后，低位补0：//</span></div><div class="line"><span class="comment">// 0000 0000 0000 0000 0000 0000 0001 0100 换算成10进制为20</span></div><div class="line">System.out.println(<span class="number">5</span> &lt;&lt; <span class="number">2</span>);<span class="comment">// 运行结果是20</span></div></pre></td></tr></table></figure>
+<p>左移运算符就是相当于第一个数乘以2的第二个数次方，就是5<code>*</code>2<code>*</code>2</p>
+<p>char是当成int来计算的，所以在也可以表示成<code>0000 0000 0000 0000 0000 0000 0000 0000</code></p>
+<p>每一位都代表2的几次方，所以可以使用<code>1 &lt;&lt; (charA[i] - &#39;A&#39;)</code>把数组中的某一个数据变成了上面32个0中间的一个1，也就是某一位，而且某一位只能代表一个字符</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">hashCheck</span><span class="params">(<span class="keyword">char</span>[] s1, <span class="keyword">char</span>[] s2)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> mask = <span class="number">0</span>;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">char</span> c: s1) &#123;</div><div class="line">        mask = mask | (<span class="number">1</span> &lt;&lt; (c - <span class="string">'A'</span>));</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">char</span> c: s2) &#123;</div><div class="line">        <span class="keyword">if</span> ((mask &amp; (<span class="number">1</span> &lt;&lt; (c - <span class="string">'A'</span>))) == <span class="number">0</span>) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>先求位运算可以使得数据最大化，也就是那一个位上有1，再求与运算，可以得出在s2中是否有那一个位</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>整理自：<a href="https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/code/java/chapter1/1.2：字符串包含.java" target="_blank" rel="external">https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/code/java/chapter1/1.2：字符串包含.java</a></p>
+<p><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/01.02.md" target="_blank" rel="external">https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/01.02.md</a></p>
+<p><a href="http://aijuans.iteye.com/blog/1850655" target="_blank" rel="external">http://aijuans.iteye.com/blog/1850655</a></p>
+<p><a href="http://www.cnblogs.com/0201zcr/p/4764427.html" target="_blank" rel="external">http://www.cnblogs.com/0201zcr/p/4764427.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Algorithm/">Algorithm</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/字符串包含/">字符串包含</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2017/03/14/algorithm/字符串包含（Java）/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2017/03/14/algorithm/Manacher算法及其Java实现/"><span>Manacher算法及其Java实现</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/03/14/algorithm/Manacher算法及其Java实现/" rel="bookmark">
         <time class="entry-date published" datetime="2017-03-14T06:51:35.755Z">
           2017-03-14
         </time>
@@ -154,7 +512,7 @@
       <span>
         <i class="icon-comments"></i>
         <span>
-          <a href="/2017/03/14/Manacher算法及其Java实现/#comment">评论</a>
+          <a href="/2017/03/14/algorithm/Manacher算法及其Java实现/#comment">评论</a>
         </span>
       </span>
     </div>
