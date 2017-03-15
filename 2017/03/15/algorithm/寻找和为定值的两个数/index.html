@@ -1,0 +1,176 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>寻找和为定值的两个数 | 天意博文 | 洗去铅华，重拾初心</title>
+
+  
+  <meta name="author" content="天意">
+  
+
+  
+  <meta name="description" content="这是天意同学的网络豪宅">
+  
+
+  
+  
+  <meta name="keywords" content="">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="寻找和为定值的两个数"/>
+
+  <meta property="og:site_name" content="天意博文"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="天意博文" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">天意博文</a>
+    </h1>
+    <p class="site-description">洗去铅华，重拾初心</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/categories">分类</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>寻找和为定值的两个数</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/03/15/algorithm/寻找和为定值的两个数/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-03-15T07:47:13.544Z">
+          2017-03-15
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>输入一个数组和一个数字，在数组中查找两个数，使得它们的和正好是输入的那个数字。</p>
+<p>要求时间复杂度是O(N)。如果有多对数字的和等于输入的数字，输出任意一对即可。</p>
+<p>例如输入数组1、2、4、7、11、15和数字15。由于4+11=15，因此输出4和11。</p>
+<h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><p>直接穷举，从数组中任意选取两个数，判定它们的和是否为输入的那个数字。此举复杂度为O(N^2)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">   <span class="comment">//只是打印出最小的值，没有答应两个数值</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">int</span>[] ints = &#123;<span class="number">1</span>, <span class="number">9</span>&#125;;</div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">       System.out.println(getSumMaxInt(ints).toString());</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List <span class="title">getSumMaxInt</span><span class="params">(<span class="keyword">int</span>[] list)</span></span>&#123;</div><div class="line">       ArrayList&lt;Integer&gt; arrayList = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">       <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; list.length; i++) &#123;</div><div class="line">           <span class="keyword">for</span> (<span class="keyword">int</span> j = i+<span class="number">1</span>; j &lt; list.length  - i; j++) &#123;</div><div class="line">               <span class="keyword">if</span> ((list[i] + list[j])==<span class="number">10</span>) &#123;</div><div class="line">                   arrayList.add(list[i]);</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line">       <span class="keyword">return</span> arrayList;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<h3 id="思路二"><a href="#思路二" class="headerlink" title="思路二"></a>思路二</h3><p>如果数组是无序的，先排序(N log N)，然后用两个指针i，j，各自指向数组的首尾两端，令i=0，j=n-1，然后i++，j–，逐次判断a[i]+a[j]?=sum，</p>
+<ul>
+<li>如果某一刻a[i]+a[j] &gt; sum，则要想办法让sum的值减小，所以此刻i不动，j–；</li>
+<li>如果某一刻a[i]+a[j] &lt; sum，则要想办法让sum的值增大，所以此刻i++，j不动。</li>
+</ul>
+<p>所以，数组无序的时候，时间复杂度最终为O(N log N + N)=O(N log N)。</p>
+<p>如果原数组是有序的，则不需要事先的排序，直接用两指针分别从头和尾向中间扫描，O(N)搞定，且空间复杂度还是O(1)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">TwoSum</span><span class="params">(<span class="keyword">int</span>[] ints)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> begin = <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> end = ints.length - <span class="number">1</span>;</div><div class="line">        <span class="keyword">int</span> sum;</div><div class="line"></div><div class="line">        <span class="keyword">while</span> (begin &lt; end) &#123;</div><div class="line">            sum = ints[begin] + ints[end];</div><div class="line">            <span class="keyword">if</span> (sum == <span class="number">10</span>) &#123;</div><div class="line">                System.out.println(<span class="string">"第一个数是"</span> + ints[begin]);</div><div class="line">                begin++;</div><div class="line">                end--;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">if</span> (sum &gt; <span class="number">10</span>) &#123;</div><div class="line">                    end--;</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    begin++;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"><span class="comment">//假设已经排序好的数组</span></div></pre></td></tr></table></figure>
+<h3 id="思路三"><a href="#思路三" class="headerlink" title="思路三"></a>思路三</h3><p>当题目对时间复杂度要求比较严格时，我们可以考虑下用空间换时间，此外，构造hash表也是典型的用空间换时间的处理办法。</p>
+<p>即给定一个数字，根据hash映射查找另一个数字是否也在数组中，只需用O(1)的时间，前提是经过O(N)时间的预处理，和用O(N)的空间构造hash表。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">TwoSumHash</span><span class="params">(<span class="keyword">int</span>[] ints)</span> </span>&#123;</div><div class="line">    HashMap&lt;Integer, Integer&gt; hashMap = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; ints.length; i++) &#123;</div><div class="line">        hashMap.put(ints[i], ints[i]);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; ints.length; i++) &#123;</div><div class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            sum = hashMap.get(<span class="number">10</span> - ints[i]).intValue() + ints[i];</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">           </div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (sum == <span class="number">10</span>&amp;&amp;(<span class="number">2</span>*ints[i]!=<span class="number">10</span>)) &#123;</div><div class="line">            System.out.println(<span class="string">"-----"</span> + ints[i]);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/02.02.md" target="_blank" rel="external">https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/02.02.md</a></p>
+<p><a href="http://www.cnblogs.com/langtianya/archive/2013/03/19/2970273.html" target="_blank" rel="external">http://www.cnblogs.com/langtianya/archive/2013/03/19/2970273.html</a></p>
+<p><a href="http://denverj.iteye.com/blog/745422" target="_blank" rel="external">http://denverj.iteye.com/blog/745422</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Algorithm/">Algorithm</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+	<div id="comment">
+		
+	<!-- 多说评论框 start -->
+	 <div class="ds-thread" data-thread-key="/2017/03/15/algorithm/寻找和为定值的两个数/" data-title="寻找和为定值的两个数" data-url="http://yoursite.com/2017/03/15/algorithm/寻找和为定值的两个数/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"wwwpugongstudio"};
+	  (function() {
+	    var ds = document.createElement('script');
+	    ds.type = 'text/javascript';ds.async = true;
+	    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+	    ds.charset = 'UTF-8';
+	    (document.getElementsByTagName('head')[0]
+	     || document.getElementsByTagName('body')[0]).appendChild(ds);
+	  })();
+	  </script>
+	<!-- 多说公共JS代码 end -->
+
+	</div>
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    更多好玩的Android文章参考<a href="http://www.haotianyi.win" target="_blank">天意博文</a>
+    
+    </br>
+    
+    &copy; 2017 天意
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>

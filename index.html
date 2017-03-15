@@ -65,6 +65,389 @@
 
   
     
+    <h3 class="article-title"><a href="/2017/03/15/algorithm/背包问题Java实现/"><span>背包问题Java实现</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/03/15/algorithm/背包问题Java实现/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-03-15T07:47:13.622Z">
+          2017-03-15
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>小偷在屋子里偷东西，他带着一只背包。屋子里物品数量有限——每件物品都具有一定的重量和价值——珠宝重量轻但价值高，桌子重但价值低。最重要的是小偷背包容量有限。很明显，他不能把桌子分成两份或者带走珠宝的3/4。对于一件物品他只能选择带走或者不带走。</p>
+<p>那么问题就是小偷怎样偷才能获得最大价值的商品？</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>有如下的商品价格和重量：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">编号</th>
+<th style="text-align:center">重量W</th>
+<th style="text-align:center">价格V</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">4</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">5</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">6</td>
+</tr>
+</tbody>
+</table>
+<p>在商店中有上面3件商品，然后用b（k,w）来表示小偷能获得的最大价值</p>
+<blockquote>
+<p>k代表的是第一个商品</p>
+<p>w代表的背包剩余的空间</p>
+</blockquote>
+<p>那么问题就变成求b(K,W)的最大值的问题，而小偷对待每一个商品首先有一个问题：背包剩余的空间能不能在装下这个商品，不能的话<code>b(k,w)=b(k-1,w)</code>；当能偷（不一定偷）的时候又判断怎么样才能最大值，那么有下图：</p>
+<p><img src="http://oaxelf1sk.bkt.clouddn.com/snipaste_20170315_150935.png" alt="snipaste_20170315_150935"></p>
+<p>现在开始从头分析：</p>
+<p>我们首先面对的是B(3,10)，对待商品3，我们选择偷还是不偷,当然偷啊</p>
+<p>那么问题就变成了求B（2,5）+6的最大值问题，然后再判断B(2,5)的最大值，依次递归，求得最大值</p>
+<blockquote>
+<p>核心算法应该是求上面的B(max)</p>
+</blockquote>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><p>我们刚刚是从最大空间到最小空间，写代码的时候可以从最小到最大空间，可以得到这样一个表格：</p>
+<p><img src="http://oaxelf1sk.bkt.clouddn.com/snipaste_20170315_152048.png" alt="snipaste_20170315_152048"></p>
+<p>x轴表示某一个商品，0就是代表没有商品，y轴代表的是最大容纳的重量</p>
+<p>可以简单的得到，商品数量为0或者是剩余的重量是0时候，B的值都是0，而且只有第一件商品的时候，B的值都是4</p>
+<p><img src="http://oaxelf1sk.bkt.clouddn.com/snipaste_20170315_152434.png" alt="snipaste_20170315_152434"></p>
+<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> maxW = <span class="number">10</span>;</div><div class="line">        <span class="keyword">int</span> number = <span class="number">3</span>;</div><div class="line">        <span class="keyword">int</span> w[] = &#123;<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;;</div><div class="line">        <span class="keyword">int</span> v[] = &#123;<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>&#125;;</div><div class="line">        <span class="keyword">int</span>[][] b = backPackSolution(maxW, number, w, v);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= number; i++) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt;= maxW; j++) &#123;</div><div class="line">                System.out.print(b[i][j]+<span class="string">"\t"</span>);</div><div class="line">            &#125;</div><div class="line">            System.out.println();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span>[][] backPackSolution(<span class="keyword">int</span> maxW, <span class="keyword">int</span> number, <span class="keyword">int</span>[] w, <span class="keyword">int</span>[] v) &#123;</div><div class="line"><span class="comment">//      没有空间或者商品数是0的时候多出1</span></div><div class="line">        <span class="keyword">int</span> b[][] = <span class="keyword">new</span> <span class="keyword">int</span>[number + <span class="number">1</span>][maxW + <span class="number">1</span>];</div><div class="line"><span class="comment">//      相当于遍历商品</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; number + <span class="number">1</span>; i++) &#123;</div><div class="line"><span class="comment">//          j代表剩余的空间</span></div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; maxW + <span class="number">1</span>; j++) &#123;</div><div class="line"><span class="comment">//              这件商品和剩余空间进行比较</span></div><div class="line">                <span class="keyword">if</span> (w[i - <span class="number">1</span>] &lt; j) &#123;</div><div class="line"><span class="comment">//                    小于表示可以偷，现在决定怎么偷</span></div><div class="line">                    <span class="keyword">if</span> (b[i - <span class="number">1</span>][j] &lt; (b[i - <span class="number">1</span>][j - w[i - <span class="number">1</span>]] + v[i - <span class="number">1</span>])) &#123;</div><div class="line">                        b[i][j] = b[i - <span class="number">1</span>][j - w[i - <span class="number">1</span>]] + v[i - <span class="number">1</span>];</div><div class="line">                    &#125; <span class="keyword">else</span> &#123;</div><div class="line">                        b[i][j] = b[i - <span class="number">1</span>][j];</div><div class="line">                    &#125;</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line"><span class="comment">//                  不偷了</span></div><div class="line">                    b[i][j] = b[i - <span class="number">1</span>][j];</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> b;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>打印可得下面的数据：</p>
+<p>0    0    0    0    0    0    0    0    0    0    0<br>0    0    0    0    4    4    4    4    4    4    4<br>0    0    0    0    4    5    5    5    9    9    9<br>0    0    0    0    4    5    6    6    9    10    11</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://www.tudou.com/listplay/Z-bWgybEtig/XaOy3xM2klU.html" target="_blank" rel="external">http://www.tudou.com/listplay/Z-bWgybEtig/XaOy3xM2klU.html</a></p>
+<p><a href="http://www.importnew.com/13072.html" target="_blank" rel="external">http://www.importnew.com/13072.html</a></p>
+<p><a href="http://www.cnblogs.com/lfeng1205/p/5981198.html" target="_blank" rel="external">http://www.cnblogs.com/lfeng1205/p/5981198.html</a></p>
+<p><a href="http://blog.csdn.net/fg2006/article/details/6766384?reload" target="_blank" rel="external">http://blog.csdn.net/fg2006/article/details/6766384?reload</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Algorithm/">Algorithm</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/背包问题/">背包问题</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2017/03/15/algorithm/背包问题Java实现/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2017/03/15/algorithm/寻找最小的k个整数/"><span>寻找最小的k个整数</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/03/15/algorithm/寻找最小的k个整数/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-03-15T07:47:13.590Z">
+          2017-03-15
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>输入n个整数，输出其中最小的k个。</p>
+<h3 id="利用排序来解题"><a href="#利用排序来解题" class="headerlink" title="利用排序来解题"></a>利用排序来解题</h3><p>要求一个序列中最小的k个数，按照惯有的思维方式，则是先对这个序列从小到大排序，然后输出前面的最小的k个数。</p>
+<p>至于选取什么的排序方法，我想你可能会第一时间想到快速排序（我们知道，快速排序平均所费时间为<code>n*logn</code>），然后再遍历序列中前k个元素输出即可。因此，总的时间复杂度：<code>O（n * log n)+O(k)=O（n * log n）</code>。</p>
+<p>例如取前三个数据：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">int</span>[] ints = &#123;<span class="number">1</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">8</span>, <span class="number">3</span>, <span class="number">7</span>, <span class="number">1</span>&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    bubbleSort(ints);</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">3</span>; i++) &#123;</div><div class="line">        System.out.print(ints[i] + <span class="string">"----"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 冒泡排序</div><div class="line"> * 比较相邻的元素。如果第一个比第二个大，就交换他们两个。</div><div class="line"> * 对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。在这一点，最后的元素应该会是最大的数。</div><div class="line"> * 针对所有的元素重复以上的步骤，除了最后一个。</div><div class="line"> * 持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> numbers 需要排序的整型数组</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">bubbleSort</span><span class="params">(<span class="keyword">int</span>[] numbers)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> temp = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> size = numbers.length;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size - <span class="number">1</span>; i++) &#123;</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; size - <span class="number">1</span> - i; j++) &#123;</div><div class="line">            <span class="keyword">if</span> (numbers[j] &gt; numbers[j + <span class="number">1</span>])  <span class="comment">//交换两数位置</span></div><div class="line">            &#123;</div><div class="line">                temp = numbers[j];</div><div class="line">                numbers[j] = numbers[j + <span class="number">1</span>];</div><div class="line">                numbers[j + <span class="number">1</span>] = temp;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="解法二"><a href="#解法二" class="headerlink" title="解法二"></a>解法二</h3><p>咱们再进一步想想，题目没有要求最小的k个数有序，也没要求最后n-k个数有序。既然如此，就没有必要对所有元素进行排序。这时，咱们想到了用选择或交换排序，即：</p>
+<p>1、遍历n个数，把最先遍历到的k个数存入到大小为k的数组中，假设它们即是最小的k个数；<br>2、对这k个数，利用选择或交换排序找到这k个元素中的最大值kmax（找最大值需要遍历这k个数，时间复杂度为<code>O（k）</code>）；<br>3、继续遍历剩余n-k个数。假设每一次遍历到的新的元素的值为x，把x与kmax比较：如果<code>x &lt; kmax</code> ，用x替换kmax，并回到第二步重新找出k个元素的数组中最大元素kmax‘；如果<code>x &gt;= kmax</code>，则继续遍历不更新数组。</p>
+<p>每次遍历，更新或不更新数组的所用的时间为<code>O（k）</code>或<code>O（0）</code>。故整趟下来，时间复杂度为<code>n*O（k）=O（n*k）</code>。</p>
+<blockquote>
+<p>重点来了，这里没有新建k个单位的数组，而是直接在原数组中去前k个进行循环，节省一个变量</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;Integer&gt; <span class="title">topKV2</span><span class="params">(List&lt;Integer&gt; list, <span class="keyword">int</span> k)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">null</span> == list || k &gt; list.size())</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    <span class="keyword">int</span> length = list.size();</div><div class="line">    <span class="keyword">if</span> (k == length)</div><div class="line">        <span class="keyword">return</span> list;</div><div class="line">    <span class="keyword">int</span> numI = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> numJ = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> temp = <span class="number">0</span>;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; k; i++) &#123;</div><div class="line">        numI = list.get(i);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i + <span class="number">1</span>; j &lt; length; j++) &#123;</div><div class="line">            numJ = list.get(j);</div><div class="line">            <span class="keyword">if</span> (numJ &lt; numI) &#123;</div><div class="line">                temp = numI;</div><div class="line">                list.set(i, numJ);</div><div class="line">                list.set(j, temp);</div><div class="line">                numI = list.get(i);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> list.subList(<span class="number">0</span>, k);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="说明-1"><a href="#说明-1" class="headerlink" title="说明"></a>说明</h2><p><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/code/java/chapter2/TopK.java" target="_blank" rel="external">https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/code/java/chapter2/TopK.java</a></p>
+<p><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/02.01.md" target="_blank" rel="external">https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/02.01.md</a></p>
+<p><a href="http://www.cnblogs.com/0201zcr/p/4763806.html" target="_blank" rel="external">http://www.cnblogs.com/0201zcr/p/4763806.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Algorithm/">Algorithm</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/排序/">排序</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2017/03/15/algorithm/寻找最小的k个整数/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2017/03/15/algorithm/寻找和为定值的两个数/"><span>寻找和为定值的两个数</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/03/15/algorithm/寻找和为定值的两个数/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-03-15T07:47:13.544Z">
+          2017-03-15
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>输入一个数组和一个数字，在数组中查找两个数，使得它们的和正好是输入的那个数字。</p>
+<p>要求时间复杂度是O(N)。如果有多对数字的和等于输入的数字，输出任意一对即可。</p>
+<p>例如输入数组1、2、4、7、11、15和数字15。由于4+11=15，因此输出4和11。</p>
+<h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><p>直接穷举，从数组中任意选取两个数，判定它们的和是否为输入的那个数字。此举复杂度为O(N^2)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">   <span class="comment">//只是打印出最小的值，没有答应两个数值</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">int</span>[] ints = &#123;<span class="number">1</span>, <span class="number">9</span>&#125;;</div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">       System.out.println(getSumMaxInt(ints).toString());</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List <span class="title">getSumMaxInt</span><span class="params">(<span class="keyword">int</span>[] list)</span></span>&#123;</div><div class="line">       ArrayList&lt;Integer&gt; arrayList = <span class="keyword">new</span> ArrayList&lt;&gt;();</div><div class="line">       <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; list.length; i++) &#123;</div><div class="line">           <span class="keyword">for</span> (<span class="keyword">int</span> j = i+<span class="number">1</span>; j &lt; list.length  - i; j++) &#123;</div><div class="line">               <span class="keyword">if</span> ((list[i] + list[j])==<span class="number">10</span>) &#123;</div><div class="line">                   arrayList.add(list[i]);</div><div class="line">               &#125;</div><div class="line">           &#125;</div><div class="line">       &#125;</div><div class="line">       <span class="keyword">return</span> arrayList;</div><div class="line">   &#125;</div></pre></td></tr></table></figure>
+<h3 id="思路二"><a href="#思路二" class="headerlink" title="思路二"></a>思路二</h3><p>如果数组是无序的，先排序(N log N)，然后用两个指针i，j，各自指向数组的首尾两端，令i=0，j=n-1，然后i++，j–，逐次判断a[i]+a[j]?=sum，</p>
+<ul>
+<li>如果某一刻a[i]+a[j] &gt; sum，则要想办法让sum的值减小，所以此刻i不动，j–；</li>
+<li>如果某一刻a[i]+a[j] &lt; sum，则要想办法让sum的值增大，所以此刻i++，j不动。</li>
+</ul>
+<p>所以，数组无序的时候，时间复杂度最终为O(N log N + N)=O(N log N)。</p>
+<p>如果原数组是有序的，则不需要事先的排序，直接用两指针分别从头和尾向中间扫描，O(N)搞定，且空间复杂度还是O(1)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">TwoSum</span><span class="params">(<span class="keyword">int</span>[] ints)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> begin = <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> end = ints.length - <span class="number">1</span>;</div><div class="line">        <span class="keyword">int</span> sum;</div><div class="line"></div><div class="line">        <span class="keyword">while</span> (begin &lt; end) &#123;</div><div class="line">            sum = ints[begin] + ints[end];</div><div class="line">            <span class="keyword">if</span> (sum == <span class="number">10</span>) &#123;</div><div class="line">                System.out.println(<span class="string">"第一个数是"</span> + ints[begin]);</div><div class="line">                begin++;</div><div class="line">                end--;</div><div class="line">                <span class="keyword">break</span>;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="keyword">if</span> (sum &gt; <span class="number">10</span>) &#123;</div><div class="line">                    end--;</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line">                    begin++;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"><span class="comment">//假设已经排序好的数组</span></div></pre></td></tr></table></figure>
+<h3 id="思路三"><a href="#思路三" class="headerlink" title="思路三"></a>思路三</h3><p>当题目对时间复杂度要求比较严格时，我们可以考虑下用空间换时间，此外，构造hash表也是典型的用空间换时间的处理办法。</p>
+<p>即给定一个数字，根据hash映射查找另一个数字是否也在数组中，只需用O(1)的时间，前提是经过O(N)时间的预处理，和用O(N)的空间构造hash表。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">TwoSumHash</span><span class="params">(<span class="keyword">int</span>[] ints)</span> </span>&#123;</div><div class="line">    HashMap&lt;Integer, Integer&gt; hashMap = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; ints.length; i++) &#123;</div><div class="line">        hashMap.put(ints[i], ints[i]);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; ints.length; i++) &#123;</div><div class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            sum = hashMap.get(<span class="number">10</span> - ints[i]).intValue() + ints[i];</div><div class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">           </div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (sum == <span class="number">10</span>&amp;&amp;(<span class="number">2</span>*ints[i]!=<span class="number">10</span>)) &#123;</div><div class="line">            System.out.println(<span class="string">"-----"</span> + ints[i]);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/02.02.md" target="_blank" rel="external">https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/02.02.md</a></p>
+<p><a href="http://www.cnblogs.com/langtianya/archive/2013/03/19/2970273.html" target="_blank" rel="external">http://www.cnblogs.com/langtianya/archive/2013/03/19/2970273.html</a></p>
+<p><a href="http://denverj.iteye.com/blog/745422" target="_blank" rel="external">http://denverj.iteye.com/blog/745422</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Algorithm/">Algorithm</a>
+    </span>
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2017/03/15/algorithm/寻找和为定值的两个数/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2017/03/15/algorithm/字符串的排序算法/"><span>字符串的排序算法</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/03/15/algorithm/字符串的排序算法/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-03-15T07:47:13.481Z">
+          2017-03-15
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>输入一个字符串，打印出该字符串中字符的所有排列。</p>
+<p>例如输入字符串abcd，则输出由字符a、b、c 、d所能排列出来的所有字符串</p>
+<h3 id="递归解答"><a href="#递归解答" class="headerlink" title="递归解答"></a>递归解答</h3><p>从集合中依次选出每一个元素，作为排列的第一个元素，然后对剩余的元素进行全排列</p>
+<p><img src="http://oaxelf1sk.bkt.clouddn.com/snipaste_20170315_091055.png" alt="snipaste_20170315_091055"></p>
+<p>由图可知当以A开头的时候，有6中解法，同理共有24种解法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    <span class="keyword">char</span>[] buf = <span class="keyword">new</span> <span class="keyword">char</span>[] &#123; <span class="string">'a'</span>, <span class="string">'b'</span> ,<span class="string">'c'</span>,<span class="string">'d'</span>&#125;;</div><div class="line">    permutation(buf, <span class="number">0</span>, <span class="number">3</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">permutation</span><span class="params">(<span class="keyword">char</span>[] buf, <span class="keyword">int</span> start, <span class="keyword">int</span> end)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (start == end) &#123;<span class="comment">// 当只要求对数组中一个字母进行全排列时，只要就按该数组输出即可</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= end; i++) &#123;</div><div class="line">            System.out.print(buf[i]);</div><div class="line">        &#125;</div><div class="line">        System.out.println();</div><div class="line">    &#125; <span class="keyword">else</span> &#123;<span class="comment">// 多个字母全排列</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = start; i &lt;= end; i++) &#123;</div><div class="line">            <span class="keyword">char</span> temp = buf[start];<span class="comment">// 交换数组第一个元素与后续的元素</span></div><div class="line">            buf[start] = buf[i];</div><div class="line">            buf[i] = temp;</div><div class="line"></div><div class="line">            permutation(buf, start + <span class="number">1</span>, end);<span class="comment">// 后续元素递归全排列</span></div><div class="line"></div><div class="line">            temp = buf[start];<span class="comment">// 将交换后的数组还原</span></div><div class="line">            buf[start] = buf[i];</div><div class="line">            buf[i] = temp;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>递归在这个题中的核心就是要多次置换元素，可以得到算法</p>
+<h3 id="字典序排列"><a href="#字典序排列" class="headerlink" title="字典序排列"></a>字典序排列</h3><p>咱们得清楚什么是字典序。根据维基百科的定义：给定两个偏序集A和B,(a,b)和(a′,b′)属于笛卡尔集 A × B，则字典序定义为</p>
+<p>(a,b) ≤ (a′,b′) 当且仅当 a &lt; a′ 或 (a = a′ 且 b ≤ b′)。</p>
+<p>所以给定两个字符串，逐个字符比较，那么先出现较小字符的那个串字典顺序小，如果字符一直相等，较短的串字典顺序小。例如：abc &lt; abcd &lt; abde &lt; afab。</p>
+<p>那有没有这样的算法，使得</p>
+<ul>
+<li>起点： 字典序最小的排列, 1-n , 例如12345</li>
+<li>终点： 字典序最大的排列，n-1, 例如54321</li>
+<li>过程： 从当前排列生成字典序刚好比它大的下一个排列</li>
+</ul>
+<p>答案是肯定的：有，即是STL中的next_permutation算法。</p>
+<h3 id="Next-Permutation"><a href="#Next-Permutation" class="headerlink" title="Next Permutation"></a>Next Permutation</h3><p>大致分成以下几个步骤：</p>
+<ol>
+<li>从后往前遍历，找到第一个非升序的，比如1,2,4,3 则找到了2，记录value和location。</li>
+<li>如果遍历完也没找到这个元素就证明这是排列的最后一个，那么从头到尾做置换，使其升序排列。比如4,3,2,1，变换为1,2,3,4</li>
+<li>如果步骤1找到了那个元素，则从后往前遍历到location的位置，找到第一个大于它的数值，比如1,2,4,3，从后向前找，找到了3，然后交换，即得到1,3,4,2</li>
+<li>将location后面的元素做交换，如1,3,4,2 将后面的4,2变换为2,4，得1,3,2,4</li>
+</ol>
+<p>完整解法，同样是6种解法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span>[] temp = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</div><div class="line"><span class="keyword">static</span> <span class="keyword">int</span>[] ints = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    nextPermutation(ints);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">nextPermutation</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span> (nums == <span class="keyword">null</span> || nums.length == <span class="number">0</span>)</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    <span class="comment">//长度为1的数组</span></div><div class="line">    <span class="keyword">if</span> (nums.length == <span class="number">1</span>) &#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">//从后向前找到第一个不满足逆序的元素</span></div><div class="line">    <span class="keyword">int</span> i = nums.length - <span class="number">2</span>;</div><div class="line">    <span class="keyword">for</span> (; i &gt;= <span class="number">0</span> &amp;&amp; nums[i] &gt;= nums[i + <span class="number">1</span>]; --i) ; <span class="comment">//注意，这里有=，可以排除含有重复元素的情况</span></div><div class="line"></div><div class="line">    <span class="comment">//从i+1位置开始，向后查找比nums[i]大的最小元素</span></div><div class="line">    <span class="keyword">if</span> (i &gt;= <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">int</span> j = i + <span class="number">1</span>;</div><div class="line">        <span class="keyword">for</span> (; j &lt; nums.length &amp;&amp; nums[j] &gt; nums[i]; ++j) ;</div><div class="line">        swap(nums, i, j - <span class="number">1</span>); <span class="comment">//交换，注意是同 j - 1交换</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">//将i之后的元素逆置(这里包含一种特殊情况，若该排列已经是字典序中的最大了，则下一个序列应该是最小字典序，因此，直接在这里逆置即可)</span></div><div class="line">    <span class="keyword">int</span> k = nums.length - <span class="number">1</span>;</div><div class="line">    i++;</div><div class="line">    <span class="keyword">for</span> (; i &lt; k; i++, k--) &#123;</div><div class="line">        swap(nums, i, k);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> m = <span class="number">0</span>; m &lt; nums.length; m++) &#123;</div><div class="line">        System.out.print(nums[m]);</div><div class="line">    &#125;</div><div class="line">    System.out.println();</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (!Arrays.equals(temp, nums)) &#123;</div><div class="line">        nextPermutation(nums);</div><div class="line">    &#125;<span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 交换元素</div><div class="line"> *</div><div class="line"> * <span class="doctag">@param</span> array</div><div class="line"> * <span class="doctag">@param</span> i</div><div class="line"> * <span class="doctag">@param</span> j</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>[] array, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</div><div class="line">    <span class="comment">//交换</span></div><div class="line">    <span class="keyword">int</span> tmp = array[i];</div><div class="line">    array[i] = array[j];</div><div class="line">    array[j] = tmp;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/01.06.md" target="_blank" rel="external">https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/01.06.md</a></p>
+<p><a href="http://blog.csdn.net/tofu_jelly/article/details/42783349" target="_blank" rel="external">http://blog.csdn.net/tofu_jelly/article/details/42783349</a></p>
+<p><a href="http://www.cnblogs.com/mydesky2012/p/5620006.html" target="_blank" rel="external">http://www.cnblogs.com/mydesky2012/p/5620006.html</a></p>
+<p><a href="https://zhidao.baidu.com/question/460468739.html" target="_blank" rel="external">https://zhidao.baidu.com/question/460468739.html</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Algorithm/">Algorithm</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/排序/">排序</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2017/03/15/algorithm/字符串的排序算法/#comment">评论</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2017/03/14/algorithm/最长回文子串—4种解法（Java版）/"><span>最长回文子串—4种解法（Java版）</span></a></h3>
     
   

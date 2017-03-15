@@ -1,0 +1,218 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>背包问题Java实现 | 天意博文 | 洗去铅华，重拾初心</title>
+
+  
+  <meta name="author" content="天意">
+  
+
+  
+  <meta name="description" content="这是天意同学的网络豪宅">
+  
+
+  
+  
+  <meta name="keywords" content="背包问题">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="背包问题Java实现"/>
+
+  <meta property="og:site_name" content="天意博文"/>
+
+  
+  <meta property="og:image" content="/favicon.ico"/>
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="天意博文" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">天意博文</a>
+    </h1>
+    <p class="site-description">洗去铅华，重拾初心</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">主页</a></li>
+      
+        <li><a href="/archives">归档</a></li>
+      
+        <li><a href="/categories">分类</a></li>
+      
+        <li><a href="/tags">标签</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>背包问题Java实现</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/03/15/algorithm/背包问题Java实现/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-03-15T07:47:13.622Z">
+          2017-03-15
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>小偷在屋子里偷东西，他带着一只背包。屋子里物品数量有限——每件物品都具有一定的重量和价值——珠宝重量轻但价值高，桌子重但价值低。最重要的是小偷背包容量有限。很明显，他不能把桌子分成两份或者带走珠宝的3/4。对于一件物品他只能选择带走或者不带走。</p>
+<p>那么问题就是小偷怎样偷才能获得最大价值的商品？</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>有如下的商品价格和重量：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">编号</th>
+<th style="text-align:center">重量W</th>
+<th style="text-align:center">价格V</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">4</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">5</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">6</td>
+</tr>
+</tbody>
+</table>
+<p>在商店中有上面3件商品，然后用b（k,w）来表示小偷能获得的最大价值</p>
+<blockquote>
+<p>k代表的是第一个商品</p>
+<p>w代表的背包剩余的空间</p>
+</blockquote>
+<p>那么问题就变成求b(K,W)的最大值的问题，而小偷对待每一个商品首先有一个问题：背包剩余的空间能不能在装下这个商品，不能的话<code>b(k,w)=b(k-1,w)</code>；当能偷（不一定偷）的时候又判断怎么样才能最大值，那么有下图：</p>
+<p><img src="http://oaxelf1sk.bkt.clouddn.com/snipaste_20170315_150935.png" alt="snipaste_20170315_150935"></p>
+<p>现在开始从头分析：</p>
+<p>我们首先面对的是B(3,10)，对待商品3，我们选择偷还是不偷,当然偷啊</p>
+<p>那么问题就变成了求B（2,5）+6的最大值问题，然后再判断B(2,5)的最大值，依次递归，求得最大值</p>
+<blockquote>
+<p>核心算法应该是求上面的B(max)</p>
+</blockquote>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><p>我们刚刚是从最大空间到最小空间，写代码的时候可以从最小到最大空间，可以得到这样一个表格：</p>
+<p><img src="http://oaxelf1sk.bkt.clouddn.com/snipaste_20170315_152048.png" alt="snipaste_20170315_152048"></p>
+<p>x轴表示某一个商品，0就是代表没有商品，y轴代表的是最大容纳的重量</p>
+<p>可以简单的得到，商品数量为0或者是剩余的重量是0时候，B的值都是0，而且只有第一件商品的时候，B的值都是4</p>
+<p><img src="http://oaxelf1sk.bkt.clouddn.com/snipaste_20170315_152434.png" alt="snipaste_20170315_152434"></p>
+<h3 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> maxW = <span class="number">10</span>;</div><div class="line">        <span class="keyword">int</span> number = <span class="number">3</span>;</div><div class="line">        <span class="keyword">int</span> w[] = &#123;<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;;</div><div class="line">        <span class="keyword">int</span> v[] = &#123;<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>&#125;;</div><div class="line">        <span class="keyword">int</span>[][] b = backPackSolution(maxW, number, w, v);</div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;= number; i++) &#123;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt;= maxW; j++) &#123;</div><div class="line">                System.out.print(b[i][j]+<span class="string">"\t"</span>);</div><div class="line">            &#125;</div><div class="line">            System.out.println();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">int</span>[][] backPackSolution(<span class="keyword">int</span> maxW, <span class="keyword">int</span> number, <span class="keyword">int</span>[] w, <span class="keyword">int</span>[] v) &#123;</div><div class="line"><span class="comment">//      没有空间或者商品数是0的时候多出1</span></div><div class="line">        <span class="keyword">int</span> b[][] = <span class="keyword">new</span> <span class="keyword">int</span>[number + <span class="number">1</span>][maxW + <span class="number">1</span>];</div><div class="line"><span class="comment">//      相当于遍历商品</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; number + <span class="number">1</span>; i++) &#123;</div><div class="line"><span class="comment">//          j代表剩余的空间</span></div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">1</span>; j &lt; maxW + <span class="number">1</span>; j++) &#123;</div><div class="line"><span class="comment">//              这件商品和剩余空间进行比较</span></div><div class="line">                <span class="keyword">if</span> (w[i - <span class="number">1</span>] &lt; j) &#123;</div><div class="line"><span class="comment">//                    小于表示可以偷，现在决定怎么偷</span></div><div class="line">                    <span class="keyword">if</span> (b[i - <span class="number">1</span>][j] &lt; (b[i - <span class="number">1</span>][j - w[i - <span class="number">1</span>]] + v[i - <span class="number">1</span>])) &#123;</div><div class="line">                        b[i][j] = b[i - <span class="number">1</span>][j - w[i - <span class="number">1</span>]] + v[i - <span class="number">1</span>];</div><div class="line">                    &#125; <span class="keyword">else</span> &#123;</div><div class="line">                        b[i][j] = b[i - <span class="number">1</span>][j];</div><div class="line">                    &#125;</div><div class="line">                &#125; <span class="keyword">else</span> &#123;</div><div class="line"><span class="comment">//                  不偷了</span></div><div class="line">                    b[i][j] = b[i - <span class="number">1</span>][j];</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> b;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>打印可得下面的数据：</p>
+<p>0    0    0    0    0    0    0    0    0    0    0<br>0    0    0    0    4    4    4    4    4    4    4<br>0    0    0    0    4    5    5    5    9    9    9<br>0    0    0    0    4    5    6    6    9    10    11</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://www.tudou.com/listplay/Z-bWgybEtig/XaOy3xM2klU.html" target="_blank" rel="external">http://www.tudou.com/listplay/Z-bWgybEtig/XaOy3xM2klU.html</a></p>
+<p><a href="http://www.importnew.com/13072.html" target="_blank" rel="external">http://www.importnew.com/13072.html</a></p>
+<p><a href="http://www.cnblogs.com/lfeng1205/p/5981198.html" target="_blank" rel="external">http://www.cnblogs.com/lfeng1205/p/5981198.html</a></p>
+<p><a href="http://blog.csdn.net/fg2006/article/details/6766384?reload" target="_blank" rel="external">http://blog.csdn.net/fg2006/article/details/6766384?reload</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/categories/Algorithm/">Algorithm</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/背包问题/">背包问题</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+	<div id="comment">
+		
+	<!-- 多说评论框 start -->
+	 <div class="ds-thread" data-thread-key="/2017/03/15/algorithm/背包问题Java实现/" data-title="背包问题Java实现" data-url="http://yoursite.com/2017/03/15/algorithm/背包问题Java实现/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"wwwpugongstudio"};
+	  (function() {
+	    var ds = document.createElement('script');
+	    ds.type = 'text/javascript';ds.async = true;
+	    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+	    ds.charset = 'UTF-8';
+	    (document.getElementsByTagName('head')[0]
+	     || document.getElementsByTagName('body')[0]).appendChild(ds);
+	  })();
+	  </script>
+	<!-- 多说公共JS代码 end -->
+
+	</div>
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    更多好玩的Android文章参考<a href="http://www.haotianyi.win" target="_blank">天意博文</a>
+    
+    </br>
+    
+    &copy; 2017 天意
+    
+  </p>
+</footer>
+    
+  </div>
+</div>
+</body>
+</html>
